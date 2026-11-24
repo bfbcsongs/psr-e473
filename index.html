@@ -6,19 +6,16 @@
   <title>PSR E473 bypaulm</title>
   <style>
     :root {
-      --bg: #070c18;
-      --surface: #111a2e;
-      --surface-2: #18243d;
-      --surface-hover: #223254;
-      --border: #253554;
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --accent: #38bdf8;
-      --purple: #a855f7;
-      --amber: #f59e0b;
-      --chord-green: #4ade80;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
+      --bg: #050a08;
+      --surface: #0b1611;
+      --surface-2: #11221a;
+      --surface-hover: #183025;
+      --border: #1e3a2d;
+      --green: #4ade80;
+      --green-dark: #16a34a;
+      --green-dim: rgba(74, 222, 128, 0.14);
+      --text: #ecfdf5;
+      --text-muted: #86efac;
       --danger: #ef4444;
     }
 
@@ -37,11 +34,11 @@
       flex-direction: column;
     }
 
-    /* Header */
+    /* Compact Header */
     header {
-      background: linear-gradient(180deg, #0b1324 0%, #09101f 100%);
+      background: #07100c;
       border-bottom: 1px solid var(--border);
-      padding: 10px 14px;
+      padding: 8px 12px;
       position: sticky;
       top: 0;
       z-index: 20;
@@ -54,7 +51,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .header-left {
@@ -66,22 +63,21 @@
 
     .btn-back {
       background: var(--surface-2);
-      color: var(--text);
+      color: var(--green);
       border: 1px solid var(--border);
       padding: 6px 10px;
-      border-radius: 8px;
+      border-radius: 7px;
       font-weight: 700;
       font-size: 0.8rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
       flex-shrink: 0;
     }
 
     .btn-back:hover {
       background: var(--surface-hover);
-      border-color: var(--accent);
+      border-color: var(--green);
     }
 
     .brand {
@@ -91,46 +87,45 @@
     }
 
     .brand-tag {
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       font-weight: 800;
-      letter-spacing: 1.1px;
-      color: var(--accent);
+      letter-spacing: 1px;
+      color: var(--green);
+      opacity: 0.8;
       text-transform: uppercase;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
     .brand h1 {
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 800;
-      letter-spacing: 0.2px;
+      color: var(--text);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .btn-add {
-      background-color: var(--primary);
+      background-color: var(--green-dark);
       color: #fff;
-      border: none;
-      padding: 7px 12px;
-      border-radius: 8px;
+      border: 1px solid var(--green);
+      padding: 6px 12px;
+      border-radius: 7px;
       font-weight: 700;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       cursor: pointer;
       flex-shrink: 0;
     }
 
     .btn-add:hover {
-      background-color: var(--primary-hover);
+      background-color: #15803d;
     }
 
     .sync-status {
       max-width: 720px;
       margin: 4px auto 0;
-      font-size: 0.66rem;
+      font-size: 0.64rem;
       color: var(--text-muted);
+      opacity: 0.75;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -142,11 +137,7 @@
       height: 6px;
       border-radius: 50%;
       margin-right: 5px;
-      background: var(--chord-green);
-    }
-
-    .status-dot.local {
-      background: var(--amber);
+      background: var(--green);
     }
 
     /* Views */
@@ -155,7 +146,7 @@
       width: 100%;
       max-width: 720px;
       margin: 0 auto;
-      padding: 12px 14px 16px;
+      padding: 10px 12px 14px;
       flex: 1;
     }
 
@@ -167,35 +158,35 @@
     /* Search & Auto-Suggest */
     .search-wrapper {
       position: relative;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .search-input {
       width: 100%;
-      padding: 10px 13px;
+      padding: 9px 12px;
       background-color: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 9px;
       color: var(--text);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       outline: none;
     }
 
     .search-input:focus {
-      border-color: var(--accent);
+      border-color: var(--green);
     }
 
     .suggestions-box {
       position: absolute;
-      top: calc(100% + 5px);
+      top: calc(100% + 4px);
       left: 0;
       right: 0;
       background-color: var(--surface-2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.65);
+      border: 1px solid var(--green);
+      border-radius: 9px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.75);
       z-index: 30;
-      max-height: 220px;
+      max-height: 210px;
       overflow-y: auto;
       display: none;
     }
@@ -205,14 +196,14 @@
     }
 
     .suggestion-item {
-      padding: 9px 13px;
+      padding: 8px 12px;
       cursor: pointer;
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 8px;
-      font-size: 0.86rem;
+      font-size: 0.84rem;
     }
 
     .suggestion-item:last-child {
@@ -224,45 +215,41 @@
     }
 
     .suggestion-meta {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       color: var(--text-muted);
-      text-align: right;
     }
 
-    /* Song Cards (Home) */
+    /* Home Song Cards */
     .song-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
 
     .song-card {
       background-color: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 13px;
+      border-radius: 10px;
+      padding: 12px;
     }
 
     .song-header {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      gap: 10px;
-      margin-bottom: 9px;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
     }
 
     .song-title {
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 800;
-      line-height: 1.25;
-      color: #fff;
+      color: var(--text);
     }
 
     .song-actions {
       display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      justify-content: flex-end;
+      gap: 5px;
       flex-shrink: 0;
     }
 
@@ -270,25 +257,21 @@
       background: var(--surface-2);
       color: var(--text);
       border: 1px solid var(--border);
-      padding: 5px 9px;
-      border-radius: 7px;
-      font-size: 0.75rem;
-      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      font-weight: 700;
       cursor: pointer;
     }
 
     .btn-action:hover {
-      background: var(--surface-hover);
+      border-color: var(--green);
     }
 
     .btn-play {
-      background: rgba(74, 222, 128, 0.14);
-      color: var(--chord-green);
-      border-color: rgba(74, 222, 128, 0.4);
-    }
-
-    .btn-play:hover {
-      background: rgba(74, 222, 128, 0.24);
+      background: var(--green-dim);
+      color: var(--green);
+      border-color: var(--green);
     }
 
     .btn-delete:hover {
@@ -296,142 +279,125 @@
       border-color: var(--danger);
     }
 
-    /* Compact Voice, Style & Tempo Badges */
     .psr-badges {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 6px;
-      margin-bottom: 9px;
+      margin-bottom: 8px;
     }
 
     .badge {
       background-color: var(--bg);
-      padding: 5px 8px;
-      border-radius: 7px;
-      border-left: 2px solid var(--accent);
+      border: 1px solid var(--border);
+      padding: 4px 8px;
+      border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 4px;
-      min-width: 0;
-    }
-
-    .badge.style-badge {
-      border-left-color: var(--purple);
-    }
-
-    .badge.tempo-badge {
-      border-left-color: var(--amber);
+      font-size: 0.78rem;
     }
 
     .badge-label {
       font-size: 0.6rem;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.6px;
       color: var(--text-muted);
-      flex-shrink: 0;
+      opacity: 0.75;
     }
 
     .badge-val {
-      font-size: 0.82rem;
       font-weight: 700;
-      color: #fff;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      color: var(--green);
     }
 
-    /* Top Table (Editor & Play) */
-    .top-table {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 7px 8px;
-      margin-bottom: 8px;
+    /* Simplified Editor Top Section (No clipped inputs) */
+    .simple-editor-header {
       display: flex;
       flex-direction: column;
       gap: 6px;
+      margin-bottom: 8px;
       flex-shrink: 0;
     }
 
-    .title-inline-input {
+    .title-transpose-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .clean-input {
       width: 100%;
-      background: var(--bg);
+      background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 7px;
-      padding: 6px 9px;
-      color: #fff;
-      font-size: 0.92rem;
+      border-radius: 8px;
+      padding: 7px 10px;
+      color: var(--text);
+      font-size: 0.88rem;
       font-weight: 700;
       outline: none;
     }
 
-    .title-inline-input:focus {
-      border-color: var(--accent);
+    .clean-input::placeholder {
+      color: var(--text-muted);
+      opacity: 0.45;
+      font-weight: 500;
     }
 
-    .editor-meta-row {
+    .clean-input:focus {
+      border-color: var(--green);
+    }
+
+    /* Full-width 3-column row so Voice, Style & Tempo have plenty of room */
+    .three-col-inputs {
       display: grid;
-      grid-template-columns: 1fr 1fr 0.85fr auto;
-      gap: 5px;
-      align-items: center;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
     }
 
-    .play-top-only-transpose {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-    }
-
-    .mini-field {
-      background: var(--bg);
+    .field-stack {
+      background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 7px;
-      padding: 4px 7px;
+      border-radius: 8px;
+      padding: 4px 8px 5px;
       display: flex;
-      align-items: center;
-      gap: 4px;
-      min-width: 0;
+      flex-direction: column;
     }
 
-    .mini-field.voice-field {
-      border-left: 2px solid var(--accent);
+    .field-stack:focus-within {
+      border-color: var(--green);
     }
 
-    .mini-field.style-field {
-      border-left: 2px solid var(--purple);
-    }
-
-    .mini-field.tempo-field {
-      border-left: 2px solid var(--amber);
-    }
-
-    .mini-label {
-      font-size: 0.58rem;
+    .field-stack label {
+      font-size: 0.56rem;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.6px;
       color: var(--text-muted);
-      flex-shrink: 0;
+      opacity: 0.75;
+      margin-bottom: 1px;
     }
 
-    .mini-input {
+    .field-stack input {
       width: 100%;
-      min-width: 0;
       background: transparent;
       border: none;
-      color: #fff;
-      font-size: 0.8rem;
-      font-weight: 700;
+      color: var(--green);
+      font-size: 0.9rem;
+      font-weight: 800;
       outline: none;
     }
 
+    .field-stack input::placeholder {
+      color: var(--text-muted);
+      opacity: 0.35;
+    }
+
+    /* Transpose Box */
     .transpose-compact {
-      background: var(--bg);
+      background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 7px;
-      padding: 3px 6px;
+      border-radius: 8px;
+      padding: 4px 6px;
       display: flex;
       align-items: center;
       gap: 5px;
@@ -440,13 +406,13 @@
 
     .btn-trans {
       background: var(--surface-2);
-      color: #fff;
+      color: var(--green);
       border: 1px solid var(--border);
-      width: 24px;
-      height: 24px;
-      border-radius: 5px;
-      font-size: 0.9rem;
-      font-weight: 700;
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 800;
       line-height: 1;
       cursor: pointer;
       display: inline-flex;
@@ -455,30 +421,38 @@
     }
 
     .btn-trans:hover {
-      background: var(--primary);
-      border-color: var(--primary);
+      background: var(--green-dark);
+      color: #fff;
+      border-color: var(--green);
     }
 
     .transpose-indicator {
-      min-width: 26px;
+      min-width: 24px;
       text-align: center;
       font-weight: 800;
-      color: var(--chord-green);
-      font-size: 0.78rem;
+      color: var(--green);
+      font-size: 0.8rem;
     }
 
-    /* 2nd Table: Maximized Green Chord Sheet */
+    .play-top-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 8px;
+      flex-shrink: 0;
+    }
+
+    /* Maximized Green Chords Sheet */
     .chord-sheet {
       width: 100%;
-      background-color: #060a14;
-      border: 1px solid #1b2842;
+      background-color: #030705;
+      border: 1px solid var(--border);
       border-radius: 10px;
       padding: 11px 12px;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       font-size: 0.9rem;
       line-height: 1.5;
       letter-spacing: 0.2px;
-      color: var(--chord-green);
+      color: var(--green);
       white-space: pre-wrap;
       word-wrap: break-word;
     }
@@ -496,7 +470,7 @@
     }
 
     textarea.chord-sheet:focus {
-      border-color: var(--chord-green);
+      border-color: var(--green);
     }
 
     #songForm {
@@ -513,18 +487,18 @@
     }
 
     .btn-save {
-      background: var(--primary);
+      background: var(--green-dark);
       color: #fff;
-      border: none;
-      padding: 8px 18px;
+      border: 1px solid var(--green);
+      padding: 8px 20px;
       border-radius: 8px;
       font-size: 0.88rem;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
     }
 
     .btn-save:hover {
-      background: var(--primary-hover);
+      background: #15803d;
     }
 
     .btn-save:disabled {
@@ -534,12 +508,12 @@
 
     .empty-state {
       text-align: center;
-      padding: 36px 18px;
+      padding: 32px 16px;
       background: var(--surface);
       border: 1px dashed var(--border);
-      border-radius: 12px;
+      border-radius: 10px;
       color: var(--text-muted);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
     }
 
     .toast {
@@ -548,13 +522,12 @@
       left: 50%;
       transform: translateX(-50%);
       background: var(--surface-2);
-      color: #fff;
-      border: 1px solid var(--chord-green);
-      padding: 8px 16px;
+      color: var(--green);
+      border: 1px solid var(--green);
+      padding: 7px 15px;
       border-radius: 999px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      font-size: 0.8rem;
+      font-weight: 700;
       z-index: 100;
       opacity: 0;
       pointer-events: none;
@@ -580,7 +553,7 @@
       <button type="button" class="btn-add" id="addSongBtn">+ Add Song</button>
     </div>
     <div class="sync-status">
-      <span id="syncIndicator"><span class="status-dot local" id="statusDot"></span>Firebase Ready (Local Fallback)</span>
+      <span id="syncIndicator"><span class="status-dot"></span>Firebase Ready (Local Fallback)</span>
       <span id="songCount">0 songs</span>
     </div>
   </header>
@@ -592,7 +565,7 @@
         type="text"
         id="searchInput"
         class="search-input"
-        placeholder="Search saved songs, voices, styles, tempo, or chords..."
+        placeholder="Search saved songs, voice, style, tempo, or chords..."
         autocomplete="off"
       />
       <div class="suggestions-box" id="suggestionsBox"></div>
@@ -601,42 +574,46 @@
     <div class="song-list" id="songList"></div>
   </section>
 
-  <!-- ADD / EDIT SONG PAGE -->
+  <!-- SIMPLIFIED ADD / EDIT SONG PAGE -->
   <section id="editorView" class="view">
     <form id="songForm">
       <input type="hidden" id="songId" />
 
-      <!-- 1st Table: Title, Voice, Style, Tempo, Transpose -->
-      <div class="top-table">
-        <input
-          type="text"
-          id="titleInput"
-          class="title-inline-input"
-          placeholder="Song Title (e.g., Mahal na Mahal kita Panginoon)"
-          required
-        />
-        <div class="editor-meta-row">
-          <div class="mini-field voice-field">
-            <span class="mini-label">Voice</span>
-            <input type="text" id="voiceInput" class="mini-input" placeholder="43" required />
-          </div>
-          <div class="mini-field style-field">
-            <span class="mini-label">Style</span>
-            <input type="text" id="styleInput" class="mini-input" placeholder="133" required />
-          </div>
-          <div class="mini-field tempo-field">
-            <span class="mini-label">Tempo</span>
-            <input type="text" id="tempoInput" class="mini-input" placeholder="120" />
-          </div>
+      <div class="simple-editor-header">
+        <!-- Row 1: Song Title + Transpose -->
+        <div class="title-transpose-row">
+          <input
+            type="text"
+            id="titleInput"
+            class="clean-input"
+            placeholder="Song Title"
+            required
+          />
           <div class="transpose-compact" title="Transpose">
             <button type="button" class="btn-trans" id="editorTransDown">-</button>
             <span class="transpose-indicator" id="editorTransVal">0</span>
             <button type="button" class="btn-trans" id="editorTransUp">+</button>
           </div>
         </div>
+
+        <!-- Row 2: Full-width Voice, Style & Tempo (Plenty of space for numbers) -->
+        <div class="three-col-inputs">
+          <div class="field-stack">
+            <label for="voiceInput">Voice</label>
+            <input type="text" id="voiceInput" placeholder="e.g. 145" required />
+          </div>
+          <div class="field-stack">
+            <label for="styleInput">Style</label>
+            <input type="text" id="styleInput" placeholder="e.g. 133" required />
+          </div>
+          <div class="field-stack">
+            <label for="tempoInput">Tempo</label>
+            <input type="text" id="tempoInput" placeholder="e.g. 120" />
+          </div>
+        </div>
       </div>
 
-      <!-- 2nd Table: Maximized Green Chords Sheet -->
+      <!-- Maximized Green Chords Table -->
       <textarea
         id="chordsInput"
         class="chord-sheet maximized"
@@ -651,17 +628,14 @@
 
   <!-- PLAY MODE PAGE -->
   <section id="playView" class="view">
-    <!-- 1st Table: Only Transpose + and - on Play Mode -->
-    <div class="top-table play-top-only-transpose">
+    <div class="play-top-bar">
       <div class="transpose-compact" title="Transpose">
-        <span class="mini-label">Transpose</span>
         <button type="button" class="btn-trans" id="playTransDown">-</button>
         <span class="transpose-indicator" id="playTransVal">0</span>
         <button type="button" class="btn-trans" id="playTransUp">+</button>
       </div>
     </div>
 
-    <!-- 2nd Table: Maximized Green Chords Sheet -->
     <div class="chord-sheet maximized" id="playChordsScreen"></div>
   </section>
 
@@ -681,7 +655,7 @@
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     // =========================================================================
-    // 1. FIREBASE CONFIG (Paste your Firebase Web App config keys)
+    // 1. FIREBASE CONFIG (Paste your Firebase Web App keys here)
     // =========================================================================
     const firebaseConfig = {
       apiKey: "YOUR_API_KEY",
@@ -698,7 +672,6 @@
     let db = null;
     let songsCol = null;
 
-    const statusDot = document.getElementById("statusDot");
     const syncIndicator = document.getElementById("syncIndicator");
 
     if (hasFirebaseConfig) {
@@ -706,19 +679,18 @@
       db = getFirestore(app);
       enableIndexedDbPersistence(db).catch(() => {});
       songsCol = collection(db, "psr_e473_songs");
-      statusDot.classList.remove("local");
       syncIndicator.innerHTML = `<span class="status-dot"></span>Firebase Firestore Live`;
     }
 
     // =========================================================================
     // 2. DATA STORE (Firebase + LocalStorage Fallback)
     // =========================================================================
-    const LOCAL_KEY = "psr_e473_bypaulm_songs_v1";
+    const LOCAL_KEY = "psr_e473_bypaulm_songs_v2";
     const defaultSongs = [
       {
         id: "sample-1",
         title: "Mahal na Mahal kita Panginoon",
-        voice: "43",
+        voice: "145",
         style: "133",
         tempo: "72",
         chords: "intro\nG C D Em F F#m\nG C G C G C",
@@ -763,9 +735,7 @@
       songs = nextList;
       saveLocalSongs(nextList);
 
-      if (!hasFirebaseConfig || !songsCol) {
-        return;
-      }
+      if (!hasFirebaseConfig || !songsCol) return;
 
       await setDoc(doc(db, "psr_e473_songs", song.id), {
         title: song.title,
@@ -855,7 +825,7 @@
         editorView.classList.add("active");
         backBtn.style.display = "inline-flex";
         addSongBtn.style.display = "none";
-        headerSub.textContent = "PSR E473 bypaulm";
+        headerSub.textContent = "PSR E473 BYPAULM";
         headerTitle.textContent = state.songId ? "Edit Song" : "Add Song";
         loadEditor(state.songId || null);
       } else if (state.page === "play") {
@@ -928,7 +898,7 @@
         songListEl.innerHTML = `
           <div class="empty-state">
             <p>No songs found.</p>
-            <p style="font-size:0.8rem;margin-top:4px;">Tap <strong>+ Add Song</strong> to create a PSR E473 bypaulm setup.</p>
+            <p style="font-size:0.78rem;margin-top:4px;">Tap <strong>+ Add Song</strong> to create a PSR E473 bypaulm setup.</p>
           </div>
         `;
         return;
@@ -951,11 +921,11 @@
                 <span class="badge-label">Voice</span>
                 <span class="badge-val">${escapeHtml(String(song.voice))}</span>
               </div>
-              <div class="badge style-badge">
+              <div class="badge">
                 <span class="badge-label">Style</span>
                 <span class="badge-val">${escapeHtml(String(song.style))}</span>
               </div>
-              <div class="badge tempo-badge">
+              <div class="badge">
                 <span class="badge-label">Tempo</span>
                 <span class="badge-val">${escapeHtml(String(song.tempo || "-"))}</span>
               </div>
@@ -1067,7 +1037,7 @@
     });
 
     // =========================================================================
-    // 6. EDITOR: EDIT & SAVE FULL ENTRY (INCLUDING TEMPO) TO FIREBASE
+    // 6. EDITOR: EDIT & SAVE FULL ENTRY TO FIREBASE
     // =========================================================================
     const songForm = document.getElementById("songForm");
     const songIdInput = document.getElementById("songId");
@@ -1145,7 +1115,7 @@
     });
 
     // =========================================================================
-    // 7. PLAY MODE: ONLY TRANSPOSE + AND - ON TOP TABLE + MAXIMIZED CHORDS
+    // 7. PLAY MODE: ONLY TRANSPOSE + AND - ON TOP + MAXIMIZED CHORDS
     // =========================================================================
     const playChordsScreen = document.getElementById("playChordsScreen");
     const playTransVal = document.getElementById("playTransVal");
