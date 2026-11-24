@@ -6,13 +6,16 @@
   <title>PSR-E473 Set Up</title>
   <style>
     :root {
-      --bg: #0f172a;
-      --surface: #1e293b;
-      --surface-hover: #334155;
-      --border: #334155;
-      --primary: #3b82f6;
-      --primary-hover: #2563eb;
+      --bg: #070c18;
+      --surface: #111a2e;
+      --surface-2: #18243d;
+      --surface-hover: #223254;
+      --border: #253554;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
       --accent: #38bdf8;
+      --purple: #a855f7;
+      --green: #22c55e;
       --text: #f8fafc;
       --text-muted: #94a3b8;
       --danger: #ef4444;
@@ -29,21 +32,21 @@
       background-color: var(--bg);
       color: var(--text);
       min-height: 100vh;
-      padding-bottom: 40px;
+      padding-bottom: 48px;
     }
 
     /* Header */
     header {
-      background: linear-gradient(135deg, #020617 0%, #1e293b 100%);
+      background: linear-gradient(180deg, #0b1324 0%, #09101f 100%);
       border-bottom: 1px solid var(--border);
-      padding: 18px 20px;
+      padding: 16px 18px;
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 20;
     }
 
     .header-inner {
-      max-width: 800px;
+      max-width: 760px;
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
@@ -51,55 +54,114 @@
       gap: 12px;
     }
 
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .btn-back {
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 9px 13px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .btn-back:hover {
+      background: var(--surface-hover);
+      border-color: var(--accent);
+    }
+
     .brand {
       display: flex;
       flex-direction: column;
+      min-width: 0;
     }
 
     .brand-tag {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 1.5px;
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 1.4px;
       color: var(--accent);
       text-transform: uppercase;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .brand h1 {
-      font-size: 1.4rem;
+      font-size: 1.35rem;
       font-weight: 800;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .btn-add {
       background-color: var(--primary);
-      color: white;
+      color: #fff;
       border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.95rem;
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.92rem;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      transition: background 0.15s;
+      flex-shrink: 0;
     }
 
     .btn-add:hover {
       background-color: var(--primary-hover);
     }
 
-    /* Main Container */
-    main {
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 0 20px;
+    .sync-status {
+      max-width: 760px;
+      margin: 8px auto 0;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      margin-right: 5px;
+      background: var(--green);
+    }
+
+    .status-dot.local {
+      background: #f59e0b;
+    }
+
+    /* Views */
+    .view {
+      display: none;
+      max-width: 760px;
+      margin: 18px auto 0;
+      padding: 0 18px;
+    }
+
+    .view.active {
+      display: block;
     }
 
     /* Search & Auto-Suggest */
     .search-wrapper {
       position: relative;
-      margin-bottom: 24px;
+      margin-bottom: 18px;
     }
 
     .search-input {
@@ -107,11 +169,10 @@
       padding: 14px 16px;
       background-color: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 10px;
+      border-radius: 12px;
       color: var(--text);
       font-size: 1rem;
       outline: none;
-      transition: border-color 0.15s;
     }
 
     .search-input:focus {
@@ -123,11 +184,11 @@
       top: calc(100% + 6px);
       left: 0;
       right: 0;
-      background-color: var(--surface);
+      background-color: var(--surface-2);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-      z-index: 20;
+      border-radius: 12px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.65);
+      z-index: 30;
       max-height: 240px;
       overflow-y: auto;
       display: none;
@@ -144,6 +205,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 10px;
     }
 
     .suggestion-item:last-child {
@@ -155,162 +217,135 @@
     }
 
     .suggestion-meta {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
+      text-align: right;
     }
 
-    /* Song Cards List */
+    /* Song Cards */
     .song-list {
       display: flex;
       flex-direction: column;
-      gap: 14px;
-    }
-
-    .empty-state {
-      text-align: center;
-      padding: 50px 20px;
-      color: var(--text-muted);
-      background: var(--surface);
-      border-radius: 12px;
-      border: 1px dashed var(--border);
+      gap: 16px;
     }
 
     .song-card {
       background-color: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-      transition: transform 0.1s;
+      border-radius: 14px;
+      padding: 18px;
     }
 
     .song-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 12px;
-      gap: 10px;
+      gap: 12px;
+      margin-bottom: 14px;
     }
 
     .song-title {
-      font-size: 1.2rem;
-      font-weight: 700;
+      font-size: 1.3rem;
+      font-weight: 800;
+      line-height: 1.25;
       color: #fff;
     }
 
     .song-actions {
       display: flex;
-      gap: 8px;
+      flex-wrap: wrap;
+      gap: 7px;
+      justify-content: flex-end;
+      flex-shrink: 0;
     }
 
-    .btn-sm {
-      background: var(--bg);
-      color: var(--text-muted);
+    .btn-action {
+      background: var(--surface-2);
+      color: var(--text);
       border: 1px solid var(--border);
-      padding: 5px 10px;
-      border-radius: 6px;
-      font-size: 0.8rem;
+      padding: 7px 11px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
       cursor: pointer;
     }
 
-    .btn-sm:hover {
-      color: #fff;
-      border-color: var(--text-muted);
+    .btn-action:hover {
+      background: var(--surface-hover);
     }
 
-    .btn-sm.delete:hover {
-      color: var(--danger);
+    .btn-play {
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+      border-color: rgba(34, 197, 94, 0.4);
+    }
+
+    .btn-play:hover {
+      background: rgba(34, 197, 94, 0.25);
+    }
+
+    .btn-delete:hover {
+      color: #fca5a5;
       border-color: var(--danger);
     }
 
     .psr-badges {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
+      gap: 12px;
       margin-bottom: 14px;
     }
 
     .badge {
       background-color: var(--bg);
-      padding: 10px 12px;
-      border-radius: 8px;
+      padding: 12px 14px;
+      border-radius: 10px;
       border-left: 3px solid var(--accent);
     }
 
     .badge.style-badge {
-      border-left-color: #a855f7;
+      border-left-color: var(--purple);
     }
 
     .badge-label {
       font-size: 0.7rem;
+      font-weight: 800;
       text-transform: uppercase;
+      letter-spacing: 1px;
       color: var(--text-muted);
-      letter-spacing: 0.8px;
       display: block;
-      margin-bottom: 2px;
+      margin-bottom: 4px;
     }
 
     .badge-val {
-      font-weight: 600;
-      font-size: 0.95rem;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
     }
 
     .chord-preview {
-      background-color: #0b1120;
-      padding: 12px;
-      border-radius: 8px;
+      background-color: #060a14;
+      border: 1px solid #1b2842;
+      border-radius: 10px;
+      padding: 14px;
       font-family: "Courier New", Courier, monospace;
-      font-size: 0.95rem;
+      font-size: 0.98rem;
+      line-height: 1.6;
       white-space: pre-wrap;
       color: #e2e8f0;
-      line-height: 1.5;
-      border: 1px solid #1e293b;
     }
 
-    /* Modal */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(2, 6, 23, 0.82);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      padding: 16px;
-      z-index: 50;
-    }
-
-    .modal-overlay.open {
-      display: flex;
-    }
-
-    .modal {
+    /* Editor View */
+    .panel {
       background-color: var(--surface);
       border: 1px solid var(--border);
       border-radius: 14px;
-      width: 100%;
-      max-width: 540px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 22px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+      padding: 20px;
     }
 
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-    }
-
-    .modal-header h2 {
+    .panel h2 {
       font-size: 1.25rem;
-    }
-
-    .close-btn {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      font-size: 1.5rem;
-      cursor: pointer;
+      margin-bottom: 16px;
     }
 
     .form-group {
@@ -319,20 +354,20 @@
 
     .form-group label {
       display: block;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
+      font-weight: 700;
       color: var(--text-muted);
       margin-bottom: 6px;
-      font-weight: 600;
     }
 
     .form-control {
       width: 100%;
-      padding: 10px 12px;
+      padding: 11px 13px;
       background-color: var(--bg);
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 9px;
       color: var(--text);
-      font-size: 0.95rem;
+      font-size: 0.98rem;
       outline: none;
     }
 
@@ -346,21 +381,19 @@
       gap: 12px;
     }
 
-    /* Chords Table & Transpose Box */
-    .chords-section {
+    .chords-box {
       background-color: var(--bg);
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 12px;
-      margin-top: 8px;
     }
 
     .transpose-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
       padding-bottom: 10px;
+      margin-bottom: 10px;
       border-bottom: 1px solid var(--border);
     }
 
@@ -371,88 +404,171 @@
     }
 
     .btn-trans {
-      background-color: var(--surface);
-      color: var(--text);
+      background: var(--surface-2);
+      color: #fff;
       border: 1px solid var(--border);
-      width: 34px;
-      height: 34px;
-      border-radius: 6px;
-      font-size: 1.1rem;
-      font-weight: bold;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      font-size: 1.15rem;
+      font-weight: 700;
       cursor: pointer;
     }
 
     .btn-trans:hover {
-      background-color: var(--primary);
+      background: var(--primary);
       border-color: var(--primary);
     }
 
     .transpose-indicator {
-      font-size: 0.85rem;
-      font-weight: 700;
-      min-width: 48px;
+      min-width: 46px;
       text-align: center;
+      font-weight: 800;
       color: var(--accent);
+      font-size: 0.95rem;
     }
 
     textarea.chord-editor {
       width: 100%;
-      min-height: 130px;
-      background: #090d16;
-      color: #38bdf8;
+      min-height: 170px;
+      background: #060a14;
+      color: var(--accent);
       border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 10px;
+      border-radius: 8px;
+      padding: 12px;
       font-family: "Courier New", Courier, monospace;
       font-size: 1rem;
-      line-height: 1.5;
+      line-height: 1.6;
       resize: vertical;
       outline: none;
     }
 
-    .modal-footer {
+    .editor-footer {
       display: flex;
       justify-content: flex-end;
       gap: 10px;
-      margin-top: 20px;
-    }
-
-    .btn-cancel {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 10px 16px;
-      border-radius: 8px;
-      cursor: pointer;
+      margin-top: 18px;
     }
 
     .btn-save {
       background: var(--primary);
+      color: #fff;
       border: none;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: 600;
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-size: 0.98rem;
+      font-weight: 700;
       cursor: pointer;
+    }
+
+    .btn-save:hover {
+      background: var(--primary-hover);
+    }
+
+    .btn-save:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Full-Screen Play Mode */
+    .play-container {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    .play-meta {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+    }
+
+    .play-patches {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 0.95rem;
+    }
+
+    .play-patches span strong {
+      color: var(--accent);
+    }
+
+    .play-chords-screen {
+      background: #050811;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 26px 22px;
+      min-height: 62vh;
+      font-family: "Courier New", Courier, monospace;
+      font-size: clamp(1.3rem, 3.2vw, 2.2rem);
+      line-height: 1.75;
+      white-space: pre-wrap;
+      color: #f8fafc;
+      letter-spacing: 0.5px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 44px 20px;
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: 14px;
+      color: var(--text-muted);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--surface-2);
+      color: #fff;
+      border: 1px solid var(--accent);
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+
+    .toast.show {
+      opacity: 1;
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Header -->
   <header>
     <div class="header-inner">
-      <div class="brand">
-        <span class="brand-tag">Yamaha Keyboard Manager</span>
-        <h1>PSR-E473 Set Up</h1>
+      <div class="header-left">
+        <!-- Hidden on Home, always present on Editor & Play pages -->
+        <button type="button" class="btn-back" id="backBtn" style="display: none;">← Back</button>
+        <div class="brand">
+          <span class="brand-tag" id="headerSub">YAMAHA KEYBOARD MANAGER</span>
+          <h1 id="headerTitle">PSR-E473 Set Up</h1>
+        </div>
       </div>
-      <button class="btn-add" id="openModalBtn">+ Add Song</button>
+      <button type="button" class="btn-add" id="addSongBtn">+ Add Song</button>
+    </div>
+    <div class="sync-status">
+      <span id="syncIndicator"><span class="status-dot local" id="statusDot"></span>Local Storage Mode (Add Firebase config to sync cloud)</span>
+      <span id="songCount">0 songs</span>
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main>
-    <!-- Real-time Search with Auto-Suggest -->
+  <!-- HOME PAGE -->
+  <section id="homeView" class="view active">
     <div class="search-wrapper">
       <input
         type="text"
@@ -464,155 +580,399 @@
       <div class="suggestions-box" id="suggestionsBox"></div>
     </div>
 
-    <!-- Saved Songs List -->
     <div class="song-list" id="songList"></div>
-  </main>
+  </section>
 
-  <!-- Add / Edit Song Modal -->
-  <div class="modal-overlay" id="songModal">
-    <div class="modal">
-      <div class="modal-header">
-        <h2 id="modalTitle">Add PSR-E473 Song Setup</h2>
-        <button class="close-btn" id="closeModalBtn">&times;</button>
-      </div>
-
+  <!-- ADD / EDIT SONG PAGE -->
+  <section id="editorView" class="view">
+    <div class="panel">
+      <h2 id="editorHeading">Add PSR-E473 Entry</h2>
       <form id="songForm">
         <input type="hidden" id="songId" />
 
         <div class="form-group">
           <label for="titleInput">Song Title</label>
-          <input type="text" id="titleInput" class="form-control" placeholder="e.g., Autumn Leaves" required />
+          <input type="text" id="titleInput" class="form-control" placeholder="e.g., Mahal na Mahal kita Panginoon" required />
         </div>
 
         <div class="row-2">
           <div class="form-group">
-            <label for="voiceInput">Voice (No. & Name)</label>
-            <input type="text" id="voiceInput" class="form-control" placeholder="e.g., 001 Live! Grand Piano" required />
+            <label for="voiceInput">Voice</label>
+            <input type="text" id="voiceInput" class="form-control" placeholder="e.g., 43" required />
           </div>
           <div class="form-group">
-            <label for="styleInput">Style (No. / Name / Tempo)</label>
-            <input type="text" id="styleInput" class="form-control" placeholder="e.g., 145 Jazz Club (120 BPM)" required />
+            <label for="styleInput">Style</label>
+            <input type="text" id="styleInput" class="form-control" placeholder="e.g., 133" required />
           </div>
         </div>
 
-        <!-- Chords Table & Transpose -->
         <div class="form-group">
           <label>Chords Table</label>
-          <div class="chords-section">
+          <div class="chords-box">
             <div class="transpose-bar">
-              <span style="font-size: 0.82rem; color: var(--text-muted);">Transpose Chords</span>
+              <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">Transpose</span>
               <div class="transpose-controls">
-                <button type="button" class="btn-trans" id="transposeDown" title="Transpose Down (-1)">-</button>
-                <span class="transpose-indicator" id="transposeOffset">0</span>
-                <button type="button" class="btn-trans" id="transposeUp" title="Transpose Up (+1)">+</button>
+                <button type="button" class="btn-trans" id="editorTransDown" title="Transpose Down (-1)">-</button>
+                <span class="transpose-indicator" id="editorTransVal">0</span>
+                <button type="button" class="btn-trans" id="editorTransUp" title="Transpose Up (+1)">+</button>
               </div>
             </div>
             <textarea
               id="chordsInput"
               class="chord-editor"
-              placeholder="| Am7   | D7    | Gmaj7 | Cmaj7 |&#10;| F#m7b5| B7    | Em    | E7    |"
+              placeholder="intro&#10;G C D Em F F#m&#10;G C G C G C"
             ></textarea>
           </div>
         </div>
 
-        <div class="modal-footer">
-          <button type="button" class="btn-cancel" id="cancelModalBtn">Cancel</button>
-          <button type="submit" class="btn-save">Save Setup</button>
+        <div class="editor-footer">
+          <button type="submit" class="btn-save" id="saveSongBtn">Save</button>
         </div>
       </form>
     </div>
-  </div>
+  </section>
 
-  <script>
-    // --- Initial Sample Data ---
+  <!-- FULL-SCREEN PLAY CHORDS PAGE -->
+  <section id="playView" class="view">
+    <div class="play-container">
+      <div class="play-meta">
+        <div class="play-patches">
+          <span>VOICE: <strong id="playVoice">-</strong></span>
+          <span>STYLE: <strong id="playStyle">-</strong></span>
+        </div>
+        <div class="transpose-controls">
+          <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 700;">Transpose</span>
+          <button type="button" class="btn-trans" id="playTransDown" title="Transpose Down (-1)">-</button>
+          <span class="transpose-indicator" id="playTransVal">0</span>
+          <button type="button" class="btn-trans" id="playTransUp" title="Transpose Up (+1)">+</button>
+        </div>
+      </div>
+
+      <div class="play-chords-screen" id="playChordsScreen"></div>
+    </div>
+  </section>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- Firebase SDK (Modular ES Module) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      doc,
+      setDoc,
+      deleteDoc,
+      onSnapshot
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    // =========================================================================
+    // 1. FIREBASE CONFIG (Paste your Firebase project keys here)
+    // =========================================================================
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const hasFirebaseConfig =
+      firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith("YOUR_");
+
+    let db = null;
+    let songsCol = null;
+
+    const statusDot = document.getElementById("statusDot");
+    const syncIndicator = document.getElementById("syncIndicator");
+
+    if (hasFirebaseConfig) {
+      const app = initializeApp(firebaseConfig);
+      db = getFirestore(app);
+      songsCol = collection(db, "psr_e473_songs");
+      statusDot.classList.remove("local");
+      syncIndicator.innerHTML = `<span class="status-dot"></span>Firebase Firestore Connected`;
+    }
+
+    // =========================================================================
+    // 2. DATA STORE (Firebase + LocalStorage Fallback)
+    // =========================================================================
+    const LOCAL_KEY = "psr_e473_songs_v2";
     const defaultSongs = [
       {
-        id: "1",
-        title: "Sunday Morning",
-        voice: "014 Suitcase EP",
-        style: "042 Cool Jazz Pop (88 BPM)",
-        chords: "| Dm7   | G7    | Cmaj7 | Cmaj7 |\n| Dm7   | G7    | Cmaj7 | A7    |"
-      },
-      {
-        id: "2",
-        title: "Hallelujah",
-        voice: "001 Live! Grand Piano",
-        style: "112 6/8 Slow Rock (56 BPM)",
-        chords: "| C     | Am    | C     | Am    |\n| F     | G     | C     | G     |"
+        id: "sample-1",
+        title: "Mahal na Mahal kita Panginoon",
+        voice: "43",
+        style: "133",
+        chords: "intro\nG C D Em F F#m\nG C G C G C",
+        updatedAt: Date.now()
       }
     ];
 
-    let songs = JSON.parse(localStorage.getItem("psr_e473_songs")) || defaultSongs;
-    let currentTranspose = 0;
+    let songs = loadLocalSongs();
 
-    // --- DOM Elements ---
+    function loadLocalSongs() {
+      try {
+        const raw = localStorage.getItem(LOCAL_KEY);
+        if (!raw) return [...defaultSongs];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [...defaultSongs];
+      } catch {
+        return [...defaultSongs];
+      }
+    }
+
+    function saveLocalSongs(list) {
+      localStorage.setItem(LOCAL_KEY, JSON.stringify(list));
+    }
+
+    if (hasFirebaseConfig && songsCol) {
+      onSnapshot(songsCol, (snapshot) => {
+        const cloudSongs = [];
+        snapshot.forEach((docSnap) => {
+          cloudSongs.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        cloudSongs.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+        songs = cloudSongs;
+        saveLocalSongs(songs);
+        renderHome(searchInput.value);
+      });
+    }
+
+    async function persistSongToFirebase(song) {
+      saveLocalSongs(
+        songs.some((s) => s.id === song.id)
+          ? songs.map((s) => (s.id === song.id ? song : s))
+          : [song, ...songs]
+      );
+
+      if (!hasFirebaseConfig || !songsCol) {
+        songs = loadLocalSongs();
+        return;
+      }
+
+      await setDoc(doc(db, "psr_e473_songs", song.id), {
+        title: song.title,
+        voice: song.voice,
+        style: song.style,
+        chords: song.chords,
+        updatedAt: Date.now()
+      });
+    }
+
+    async function removeSongFromFirebase(id) {
+      const updated = songs.filter((s) => s.id !== id);
+      saveLocalSongs(updated);
+      songs = updated;
+
+      if (hasFirebaseConfig && songsCol) {
+        await deleteDoc(doc(db, "psr_e473_songs", id));
+      }
+    }
+
+    // =========================================================================
+    // 3. NAVIGATION & PHONE BACK BUTTON SYNC
+    // =========================================================================
+    // Stack of page states: { page: "home" | "editor" | "play", songId?: string }
+    let navStack = [{ page: "home" }];
+    let isHandlingPopstate = false;
+
+    const backBtn = document.getElementById("backBtn");
+    const addSongBtn = document.getElementById("addSongBtn");
+    const homeView = document.getElementById("homeView");
+    const editorView = document.getElementById("editorView");
+    const playView = document.getElementById("playView");
+    const headerTitle = document.getElementById("headerTitle");
+    const headerSub = document.getElementById("headerSub");
+
+    // Initialize base history entry
+    history.replaceState({ stackIndex: 0 }, "", "#home");
+
+    function navigateTo(nextState) {
+      const currentTop = navStack[navStack.length - 1];
+      if (
+        currentTop &&
+        currentTop.page === nextState.page &&
+        currentTop.songId === nextState.songId
+      ) {
+        applyRoute(nextState);
+        return;
+      }
+
+      navStack.push(nextState);
+      const stackIndex = navStack.length - 1;
+      history.pushState({ stackIndex }, "", `#${nextState.page}`);
+      applyRoute(nextState);
+    }
+
+    function goBackOneStep() {
+      if (navStack.length > 1) {
+        // Trigger browser back so phone/browser history stays in sync
+        history.back();
+      } else {
+        applyRoute({ page: "home" });
+      }
+    }
+
+    window.addEventListener("popstate", (event) => {
+      isHandlingPopstate = true;
+      if (event.state && typeof event.state.stackIndex === "number") {
+        const targetIdx = Math.max(0, Math.min(event.state.stackIndex, navStack.length - 1));
+        navStack = navStack.slice(0, targetIdx + 1);
+      } else if (navStack.length > 1) {
+        navStack.pop();
+      } else {
+        navStack = [{ page: "home" }];
+      }
+      applyRoute(navStack[navStack.length - 1]);
+      isHandlingPopstate = false;
+    });
+
+    function applyRoute(state) {
+      homeView.classList.remove("active");
+      editorView.classList.remove("active");
+      playView.classList.remove("active");
+
+      if (state.page === "home") {
+        homeView.classList.add("active");
+        backBtn.style.display = "none";
+        addSongBtn.style.display = "inline-flex";
+        headerSub.textContent = "YAMAHA KEYBOARD MANAGER";
+        headerTitle.textContent = "PSR-E473 Set Up";
+        renderHome(searchInput.value);
+      } else if (state.page === "editor") {
+        editorView.classList.add("active");
+        backBtn.style.display = "inline-flex";
+        addSongBtn.style.display = "none";
+        headerSub.textContent = "PSR-E473 SET UP";
+        headerTitle.textContent = state.songId ? "Edit Song" : "Add Song";
+        loadEditor(state.songId || null);
+      } else if (state.page === "play") {
+        playView.classList.add("active");
+        backBtn.style.display = "inline-flex";
+        addSongBtn.style.display = "none";
+        loadPlayScreen(state.songId);
+      }
+    }
+
+    backBtn.addEventListener("click", goBackOneStep);
+    addSongBtn.addEventListener("click", () => navigateTo({ page: "editor", songId: null }));
+
+    // =========================================================================
+    // 4. CHORD TRANSPOSITION ENGINE
+    // =========================================================================
+    const NOTES_SHARP = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+    const NOTES_FLAT  = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
+
+    function shiftNote(note, semitones) {
+      let idx = NOTES_SHARP.indexOf(note);
+      let useFlats = false;
+      if (idx === -1) {
+        idx = NOTES_FLAT.indexOf(note);
+        useFlats = true;
+      }
+      if (idx === -1) return note;
+      const newIdx = (idx + semitones + 120) % 12;
+      return useFlats ? NOTES_FLAT[newIdx] : NOTES_SHARP[newIdx];
+    }
+
+    function transposeChords(text, semitones) {
+      if (!text || !semitones) return text;
+      return text.replace(
+        /(?<![A-Za-z0-9#b])([A-G](?:#|b)?)((?:maj|min|m|dim|aug|sus|add)?[0-9]*(?:b5|#5|b9|#9|#11|b13)?(?:\/[A-G](?:#|b)?)?)(?=\s|\||$|\/)/g,
+        (match, root, suffix) => {
+          const nextRoot = shiftNote(root, semitones);
+          let nextSuffix = suffix;
+          if (suffix.includes("/")) {
+            const [qual, bass] = suffix.split("/");
+            nextSuffix = `${qual}/${shiftNote(bass, semitones)}`;
+          }
+          return `${nextRoot}${nextSuffix}`;
+        }
+      );
+    }
+
+    // =========================================================================
+    // 5. HOME: SEARCH + AUTO-SUGGEST + SONG LIST
+    // =========================================================================
     const songListEl = document.getElementById("songList");
     const searchInput = document.getElementById("searchInput");
     const suggestionsBox = document.getElementById("suggestionsBox");
-    const songModal = document.getElementById("songModal");
-    const songForm = document.getElementById("songForm");
-    const modalTitle = document.getElementById("modalTitle");
+    const songCountEl = document.getElementById("songCount");
 
-    const songIdInput = document.getElementById("songId");
-    const titleInput = document.getElementById("titleInput");
-    const voiceInput = document.getElementById("voiceInput");
-    const styleInput = document.getElementById("styleInput");
-    const chordsInput = document.getElementById("chordsInput");
-    const transposeOffsetEl = document.getElementById("transposeOffset");
+    function renderHome(filterText = "") {
+      songCountEl.textContent = `${songs.length} ${songs.length === 1 ? "song" : "songs"}`;
+      const q = filterText.trim().toLowerCase();
 
-    // --- Save to LocalStorage ---
-    function saveSongs() {
-      localStorage.setItem("psr_e473_songs", JSON.stringify(songs));
-    }
-
-    // --- Render Song Cards ---
-    function renderSongs(filterText = "") {
-      const query = filterText.trim().toLowerCase();
-      const filtered = songs.filter(song =>
-        song.title.toLowerCase().includes(query) ||
-        song.voice.toLowerCase().includes(query) ||
-        song.style.toLowerCase().includes(query) ||
-        song.chords.toLowerCase().includes(query)
+      const filtered = songs.filter(
+        (s) =>
+          (s.title || "").toLowerCase().includes(q) ||
+          String(s.voice || "").toLowerCase().includes(q) ||
+          String(s.style || "").toLowerCase().includes(q) ||
+          (s.chords || "").toLowerCase().includes(q)
       );
 
       if (filtered.length === 0) {
         songListEl.innerHTML = `
           <div class="empty-state">
-            <p>No PSR-E473 setups found.</p>
-            <p style="font-size: 0.85rem; margin-top: 6px;">Tap <strong>+ Add Song</strong> to create a new patch setup.</p>
+            <p>No songs found.</p>
+            <p style="font-size:0.85rem;margin-top:6px;">Tap <strong>+ Add Song</strong> to create a PSR-E473 setup.</p>
           </div>
         `;
         return;
       }
 
-      songListEl.innerHTML = filtered.map(song => `
-        <div class="song-card">
-          <div class="song-header">
-            <div class="song-title">${escapeHtml(song.title)}</div>
-            <div class="song-actions">
-              <button class="btn-sm" onclick="editSong('${song.id}')">Edit / Transpose</button>
-              <button class="btn-sm delete" onclick="deleteSong('${song.id}')">Delete</button>
+      songListEl.innerHTML = filtered
+        .map(
+          (song) => `
+          <div class="song-card">
+            <div class="song-header">
+              <div class="song-title">${escapeHtml(song.title)}</div>
+              <div class="song-actions">
+                <button type="button" class="btn-action btn-play" data-play="${song.id}">▶ Play</button>
+                <button type="button" class="btn-action" data-edit="${song.id}">Edit</button>
+                <button type="button" class="btn-action btn-delete" data-delete="${song.id}">Delete</button>
+              </div>
             </div>
+            <div class="psr-badges">
+              <div class="badge">
+                <span class="badge-label">Voice</span>
+                <span class="badge-val">${escapeHtml(String(song.voice))}</span>
+              </div>
+              <div class="badge style-badge">
+                <span class="badge-label">Style</span>
+                <span class="badge-val">${escapeHtml(String(song.style))}</span>
+              </div>
+            </div>
+            ${song.chords ? `<div class="chord-preview">${escapeHtml(song.chords)}</div>` : ""}
           </div>
-          <div class="psr-badges">
-            <div class="badge">
-              <span class="badge-label">Voice</span>
-              <span class="badge-val">${escapeHtml(song.voice)}</span>
-            </div>
-            <div class="badge style-badge">
-              <span class="badge-label">Style</span>
-              <span class="badge-val">${escapeHtml(song.style)}</span>
-            </div>
-          </div>
-          ${song.chords ? `<div class="chord-preview">${escapeHtml(song.chords)}</div>` : ""}
-        </div>
-      `).join("");
+        `
+        )
+        .join("");
     }
 
-    // --- Real-Time Search & Auto-Suggest ---
+    songListEl.addEventListener("click", async (e) => {
+      const playId = e.target.closest("[data-play]")?.dataset.play;
+      const editId = e.target.closest("[data-edit]")?.dataset.edit;
+      const deleteId = e.target.closest("[data-delete]")?.dataset.delete;
+
+      if (playId) {
+        navigateTo({ page: "play", songId: playId });
+      } else if (editId) {
+        navigateTo({ page: "editor", songId: editId });
+      } else if (deleteId) {
+        if (confirm("Delete this song setup?")) {
+          await removeSongFromFirebase(deleteId);
+          renderHome(searchInput.value);
+          showToast("Deleted");
+        }
+      }
+    });
+
     searchInput.addEventListener("input", () => {
       const val = searchInput.value;
-      renderSongs(val);
+      renderHome(val);
       updateSuggestions(val);
     });
 
@@ -623,33 +983,67 @@
         return;
       }
 
-      // Build unique word & title suggestions from saved songs
-      const matches = songs.filter(s =>
-        s.title.toLowerCase().includes(clean) ||
-        s.voice.toLowerCase().includes(clean) ||
-        s.style.toLowerCase().includes(clean)
+      // Collect matching song titles and matching words
+      const wordSet = new Set();
+      songs.forEach((s) => {
+        [s.title, String(s.voice), String(s.style)].forEach((field) => {
+          (field || "").split(/\s+/).forEach((word) => {
+            const w = word.trim();
+            if (w && w.toLowerCase().includes(clean)) {
+              wordSet.add(w);
+            }
+          });
+        });
+      });
+
+      const titleMatches = songs.filter(
+        (s) =>
+          (s.title || "").toLowerCase().includes(clean) ||
+          String(s.voice || "").toLowerCase().includes(clean) ||
+          String(s.style || "").toLowerCase().includes(clean)
       );
 
-      if (matches.length === 0) {
+      if (titleMatches.length === 0 && wordSet.size === 0) {
         suggestionsBox.classList.remove("active");
         return;
       }
 
-      suggestionsBox.innerHTML = matches.map(s => `
-        <div class="suggestion-item" onclick="selectSuggestion('${escapeHtml(s.title)}')">
-          <strong>${escapeHtml(s.title)}</strong>
-          <span class="suggestion-meta">${escapeHtml(s.voice)} • ${escapeHtml(s.style)}</span>
-        </div>
-      `).join("");
+      const wordChips = Array.from(wordSet)
+        .slice(0, 6)
+        .map(
+          (w) => `
+          <div class="suggestion-item" data-suggest="${escapeHtml(w)}">
+            <span>Word: <strong>${escapeHtml(w)}</strong></span>
+            <span class="suggestion-meta">Auto-suggest</span>
+          </div>
+        `
+        )
+        .join("");
 
+      const songItems = titleMatches
+        .slice(0, 6)
+        .map(
+          (s) => `
+          <div class="suggestion-item" data-suggest="${escapeHtml(s.title)}">
+            <strong>${escapeHtml(s.title)}</strong>
+            <span class="suggestion-meta">Voice ${escapeHtml(String(s.voice))} • Style ${escapeHtml(String(s.style))}</span>
+          </div>
+        `
+        )
+        .join("");
+
+      suggestionsBox.innerHTML = wordChips + songItems;
       suggestionsBox.classList.add("active");
     }
 
-    window.selectSuggestion = function(title) {
-      searchInput.value = title;
+    suggestionsBox.addEventListener("click", (e) => {
+      const item = e.target.closest("[data-suggest]");
+      if (!item) return;
+      const picked = item.dataset.suggest;
+      searchInput.value = picked;
       suggestionsBox.classList.remove("active");
-      renderSongs(title);
-    };
+      renderHome(picked);
+    });
 
     document.addEventListener("click", (e) => {
       if (!e.target.closest(".search-wrapper")) {
@@ -657,123 +1051,149 @@
       }
     });
 
-    // --- Chord Transposition Engine ---
-    const NOTES_SHARP = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
-    const NOTES_FLAT  = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
+    // =========================================================================
+    // 6. EDITOR: EDIT & SAVE FULL ENTRY TO FIREBASE
+    // =========================================================================
+    const songForm = document.getElementById("songForm");
+    const editorHeading = document.getElementById("editorHeading");
+    const songIdInput = document.getElementById("songId");
+    const titleInput = document.getElementById("titleInput");
+    const voiceInput = document.getElementById("voiceInput");
+    const styleInput = document.getElementById("styleInput");
+    const chordsInput = document.getElementById("chordsInput");
+    const saveSongBtn = document.getElementById("saveSongBtn");
+    const editorTransVal = document.getElementById("editorTransVal");
 
-    function transposeText(text, semitones) {
-      // Matches chords like C, F#m7, Bbmaj7, G/B, Dsus4 while ignoring plain words
-      return text.replace(/\b([A-G](?:#|b)?)((?:maj|min|m|dim|aug|sus|add)?[0-9]*(?:b5|#5|b9|#9|#11|b13)?(?:\/[A-G](?:#|b)?)?)(?=\s|\||$|\/)/g, (match, root, suffix) => {
-        const transposedRoot = shiftNote(root, semitones);
-        let transposedSuffix = suffix;
+    let editorSemitones = 0;
 
-        // Handle slash bass notes (e.g., C/G -> D/A)
-        if (suffix.includes("/")) {
-          const parts = suffix.split("/");
-          transposedSuffix = parts[0] + "/" + shiftNote(parts[1], semitones);
+    function loadEditor(songId) {
+      editorSemitones = 0;
+      editorTransVal.textContent = "0";
+
+      if (songId) {
+        const song = songs.find((s) => s.id === songId);
+        if (song) {
+          editorHeading.textContent = "Edit PSR-E473 Setup";
+          songIdInput.value = song.id;
+          titleInput.value = song.title || "";
+          voiceInput.value = song.voice || "";
+          styleInput.value = song.style || "";
+          chordsInput.value = song.chords || "";
+          return;
         }
-
-        return transposedRoot + transposedSuffix;
-      });
-    }
-
-    function shiftNote(note, semitones) {
-      let idx = NOTES_SHARP.indexOf(note);
-      let useFlats = false;
-      if (idx === -1) {
-        idx = NOTES_FLAT.indexOf(note);
-        useFlats = true;
       }
-      if (idx === -1) return note;
 
-      const newIdx = (idx + semitones + 12) % 12;
-      return useFlats ? NOTES_FLAT[newIdx] : NOTES_SHARP[newIdx];
-    }
-
-    document.getElementById("transposeUp").addEventListener("click", () => {
-      currentTranspose++;
-      updateTransposeDisplay();
-      chordsInput.value = transposeText(chordsInput.value, 1);
-    });
-
-    document.getElementById("transposeDown").addEventListener("click", () => {
-      currentTranspose--;
-      updateTransposeDisplay();
-      chordsInput.value = transposeText(chordsInput.value, -1);
-    });
-
-    function updateTransposeDisplay() {
-      transposeOffsetEl.textContent = currentTranspose > 0 ? `+${currentTranspose}` : `${currentTranspose}`;
-    }
-
-    // --- Modal Controls ---
-    function openModal(isEdit = false) {
-      modalTitle.textContent = isEdit ? "Edit PSR-E473 Setup" : "Add PSR-E473 Song Setup";
-      currentTranspose = 0;
-      updateTransposeDisplay();
-      songModal.classList.add("open");
-    }
-
-    function closeModal() {
-      songModal.classList.remove("open");
-      songForm.reset();
+      editorHeading.textContent = "Add PSR-E473 Setup";
       songIdInput.value = "";
+      titleInput.value = "";
+      voiceInput.value = "";
+      styleInput.value = "";
+      chordsInput.value = "";
     }
 
-    document.getElementById("openModalBtn").addEventListener("click", () => openModal(false));
-    document.getElementById("closeModalBtn").addEventListener("click", closeModal);
-    document.getElementById("cancelModalBtn").addEventListener("click", closeModal);
+    document.getElementById("editorTransUp").addEventListener("click", () => {
+      editorSemitones += 1;
+      editorTransVal.textContent = editorSemitones > 0 ? `+${editorSemitones}` : `${editorSemitones}`;
+      chordsInput.value = transposeChords(chordsInput.value, 1);
+    });
 
-    // --- Save / Edit / Delete ---
-    songForm.addEventListener("submit", (e) => {
+    document.getElementById("editorTransDown").addEventListener("click", () => {
+      editorSemitones -= 1;
+      editorTransVal.textContent = editorSemitones > 0 ? `+${editorSemitones}` : `${editorSemitones}`;
+      chordsInput.value = transposeChords(chordsInput.value, -1);
+    });
+
+    songForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const id = songIdInput.value;
-      const newSong = {
-        id: id || Date.now().toString(),
+      saveSongBtn.disabled = true;
+
+      const entry = {
+        id: songIdInput.value || `song-${Date.now()}`,
         title: titleInput.value.trim(),
         voice: voiceInput.value.trim(),
         style: styleInput.value.trim(),
-        chords: chordsInput.value.trim()
+        chords: chordsInput.value,
+        updatedAt: Date.now()
       };
 
-      if (id) {
-        const index = songs.findIndex(s => s.id === id);
-        if (index !== -1) songs[index] = newSong;
-      } else {
-        songs.unshift(newSong);
+      try {
+        await persistSongToFirebase(entry);
+        showToast(hasFirebaseConfig ? "Saved to Firebase" : "Saved locally");
+        goBackOneStep();
+      } catch (err) {
+        console.error(err);
+        showToast("Error saving to Firebase");
+      } finally {
+        saveSongBtn.disabled = false;
       }
-
-      saveSongs();
-      renderSongs(searchInput.value);
-      closeModal();
     });
 
-    window.editSong = function(id) {
-      const song = songs.find(s => s.id === id);
-      if (!song) return;
-      songIdInput.value = song.id;
-      titleInput.value = song.title;
-      voiceInput.value = song.voice;
-      styleInput.value = song.style;
-      chordsInput.value = song.chords;
-      openModal(true);
-    };
+    // =========================================================================
+    // 7. FULL-SCREEN PLAY VIEW WITH LIVE TRANSPOSE
+    // =========================================================================
+    const playVoiceEl = document.getElementById("playVoice");
+    const playStyleEl = document.getElementById("playStyle");
+    const playChordsScreen = document.getElementById("playChordsScreen");
+    const playTransVal = document.getElementById("playTransVal");
 
-    window.deleteSong = function(id) {
-      if (!confirm("Delete this song setup?")) return;
-      songs = songs.filter(s => s.id !== id);
-      saveSongs();
-      renderSongs(searchInput.value);
-    };
+    let activePlaySong = null;
+    let playSemitones = 0;
 
+    function loadPlayScreen(songId) {
+      const song = songs.find((s) => s.id === songId);
+      if (!song) {
+        goBackOneStep();
+        return;
+      }
+      activePlaySong = song;
+      playSemitones = 0;
+      headerSub.textContent = "FULL-SCREEN CHORDS";
+      headerTitle.textContent = song.title;
+      playVoiceEl.textContent = song.voice;
+      playStyleEl.textContent = song.style;
+      renderPlayChords();
+    }
+
+    function renderPlayChords() {
+      if (!activePlaySong) return;
+      playTransVal.textContent = playSemitones > 0 ? `+${playSemitones}` : `${playSemitones}`;
+      playChordsScreen.textContent = transposeChords(activePlaySong.chords || "", playSemitones);
+    }
+
+    document.getElementById("playTransUp").addEventListener("click", () => {
+      playSemitones += 1;
+      renderPlayChords();
+    });
+
+    document.getElementById("playTransDown").addEventListener("click", () => {
+      playSemitones -= 1;
+      renderPlayChords();
+    });
+
+    // =========================================================================
+    // 8. HELPERS
+    // =========================================================================
     function escapeHtml(str) {
-      return str.replace(/[&<>"']/g, m => ({
-        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      return String(str).replace(/[&<>"']/g, (m) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
       }[m]));
     }
 
-    // Initial Render
-    renderSongs();
+    let toastTimer;
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      toast.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 2000);
+    }
+
+    // Initial Home Render
+    renderHome();
   </script>
 </body>
 </html>
