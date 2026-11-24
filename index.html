@@ -138,10 +138,10 @@
       height: 6px;
       border-radius: 50%;
       margin-right: 5px;
-      background: var(--accent);
+      background: var(--chord-green);
     }
 
-    .status-dot.local {
+    .status-dot.connecting {
       background: var(--amber);
     }
 
@@ -590,7 +590,7 @@
       <button type="button" class="btn-add" id="addSongBtn">+ Add Song</button>
     </div>
     <div class="sync-status">
-      <span id="syncIndicator"><span class="status-dot local" id="statusDot"></span>Firebase Ready (Local Fallback)</span>
+      <span id="syncIndicator"><span class="status-dot connecting" id="statusDot"></span>Connecting to mobile-presenter...</span>
       <span id="songCount">0 songs</span>
     </div>
   </header>
@@ -678,75 +678,51 @@
 
   <div class="toast" id="toast"></div>
 
-  <!-- Firebase SDK (Modular ES Module) -->
+  <!-- Firebase SDK v13.4.0 (Modular ES Module) -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
     import {
-      getFirestore,
-      collection,
-      doc,
-      setDoc,
-      deleteDoc,
-      onSnapshot,
-      enableIndexedDbPersistence
-    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+      getDatabase,
+      ref,
+      set,
+      remove,
+      onValue
+    } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-database.js";
 
     // =========================================================================
-    // 1. FIREBASE CONFIG (Paste your Firebase Web App config keys here)
+    // 1. YOUR FIREBASE CONFIG (mobile-presenter)
     // =========================================================================
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      apiKey: "AIzaSyA6yuHjPrn3SVsXeJSnA9gzJ6tHw9oGdnA",
+      authDomain: "mobile-presenter.firebaseapp.com",
+      databaseURL: "https://mobile-presenter-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "mobile-presenter",
+      storageBucket: "mobile-presenter.firebasestorage.app",
+      messagingSenderId: "386403722965",
+      appId: "1:386403722965:web:efd186e0e3e67c5218a45c",
+      measurementId: "G-WBMG9Q2SQ6"
     };
 
-    const hasFirebaseConfig =
-      firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith("YOUR_");
+    const app = initializeApp(firebaseConfig);
+    const rtdb = getDatabase(app);
+    const songsRef = ref(rtdb, "psr_e473_songs");
 
-    let db = null;
-    let songsCol = null;
-
-    const statusDot = document.getElementById("statusDot");
     const syncIndicator = document.getElementById("syncIndicator");
 
-    if (hasFirebaseConfig) {
-      const app = initializeApp(firebaseConfig);
-      db = getFirestore(app);
-      enableIndexedDbPersistence(db).catch(() => {});
-      songsCol = collection(db, "psr_e473_songs");
-      statusDot.classList.remove("local");
-      syncIndicator.innerHTML = `<span class="status-dot"></span>Firebase Firestore Live`;
-    }
-
     // =========================================================================
-    // 2. DATA STORE (Firebase + LocalStorage Fallback)
+    // 2. REAL-TIME FIREBASE SYNC + LOCAL CACHE
     // =========================================================================
-    const LOCAL_KEY = "psr_e473_bypaulm_songs_v3";
-    const defaultSongs = [
-      {
-        id: "sample-1",
-        title: "Mahal na Mahal kita Panginoon",
-        voice: "145",
-        style: "133",
-        tempo: "72",
-        chords: "intro\nG C D Em F F#m\nG C G C G C",
-        updatedAt: Date.now()
-      }
-    ];
-
+    const LOCAL_KEY = "psr_e473_bypaulm_cache_v1";
     let songs = loadLocalSongs();
 
     function loadLocalSongs() {
       try {
         const raw = localStorage.getItem(LOCAL_KEY);
-        if (!raw) return [...defaultSongs];
+        if (!raw) return [];
         const parsed = JSON.parse(raw);
-        return Array.isArray(parsed) ? parsed : [...defaultSongs];
+        return Array.isArray(parsed) ? parsed : [];
       } catch {
-        return [...defaultSongs];
+        return [];
       }
     }
 
@@ -754,18 +730,29 @@
       localStorage.setItem(LOCAL_KEY, JSON.stringify(list));
     }
 
-    if (hasFirebaseConfig && songsCol) {
-      onSnapshot(songsCol, (snapshot) => {
+    onValue(
+      songsRef,
+      (snapshot) => {
+        const val = snapshot.val();
         const cloudSongs = [];
-        snapshot.forEach((docSnap) => {
-          cloudSongs.push({ id: docSnap.id, ...docSnap.data() });
-        });
+        if (val && typeof val === "object") {
+          Object.entries(val).forEach(([id, data]) => {
+            if (data && typeof data === "object") {
+              cloudSongs.push({ id, ...data });
+            }
+          });
+        }
         cloudSongs.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
         songs = cloudSongs;
         saveLocalSongs(songs);
+        syncIndicator.innerHTML = `<span class="status-dot"></span>Firebase Connected (mobile-presenter)`;
         renderHome(searchInput.value);
-      });
-    }
+      },
+      (error) => {
+        console.error("Firebase Realtime Database error:", error);
+        syncIndicator.innerHTML = `<span class="status-dot connecting"></span>Offline / Check Firebase RTDB Rules`;
+      }
+    );
 
     async function persistSongToFirebase(song) {
       const nextList = songs.some((s) => s.id === song.id)
@@ -774,9 +761,7 @@
       songs = nextList;
       saveLocalSongs(nextList);
 
-      if (!hasFirebaseConfig || !songsCol) return;
-
-      await setDoc(doc(db, "psr_e473_songs", song.id), {
+      await set(ref(rtdb, `psr_e473_songs/${song.id}`), {
         title: song.title,
         voice: song.voice,
         style: song.style,
@@ -791,9 +776,7 @@
       songs = updated;
       saveLocalSongs(updated);
 
-      if (hasFirebaseConfig && songsCol) {
-        await deleteDoc(doc(db, "psr_e473_songs", id));
-      }
+      await remove(ref(rtdb, `psr_e473_songs/${id}`));
     }
 
     // =========================================================================
@@ -940,7 +923,7 @@
         songListEl.innerHTML = `
           <div class="empty-state">
             <p>No songs found.</p>
-            <p style="font-size:0.78rem;margin-top:4px;">Tap <strong>+ Add Song</strong> to create a PSR E473 bypaulm setup.</p>
+            <p style="font-size:0.78rem;margin-top:4px;">Tap <strong>+ Add Song</strong> to save a song to Firebase.</p>
           </div>
         `;
         return;
@@ -992,7 +975,7 @@
         if (confirm("Delete this song setup?")) {
           await removeSongFromFirebase(deleteId);
           renderHome(searchInput.value);
-          showToast("Deleted");
+          showToast("Deleted from Firebase");
         }
       }
     });
@@ -1003,7 +986,6 @@
       updateSuggestions(val);
     });
 
-    // Rank nearest matching songs by prefix match, word-start match, then substring match
     function getMatchScore(song, cleanQuery) {
       const title = (song.title || "").toLowerCase();
       const voice = String(song.voice || "").toLowerCase();
@@ -1143,11 +1125,11 @@
 
       try {
         await persistSongToFirebase(entry);
-        showToast(hasFirebaseConfig ? "Saved to Firebase" : "Saved locally");
+        showToast("Saved to Firebase");
         goBackOneStep();
       } catch (err) {
         console.error(err);
-        showToast("Error saving to Firebase");
+        showToast("Save failed — check Firebase rules");
       } finally {
         saveSongBtn.disabled = false;
       }
