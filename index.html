@@ -590,7 +590,7 @@
       <button type="button" class="btn-add" id="addSongBtn">+ Add Song</button>
     </div>
     <div class="sync-status">
-      <span id="syncIndicator"><span class="status-dot connecting" id="statusDot"></span>Connecting to mobile-presenter...</span>
+      <span id="syncIndicator"><span class="status-dot connecting" id="statusDot"></span>Signing in to mobile-presenter...</span>
       <span id="songCount">0 songs</span>
     </div>
   </header>
@@ -682,6 +682,11 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js";
     import {
+      getAuth,
+      signInAnonymously,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js";
+    import {
       getDatabase,
       ref,
       set,
@@ -704,16 +709,18 @@
     };
 
     const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
     const rtdb = getDatabase(app);
     const songsRef = ref(rtdb, "psr_e473_songs");
 
     const syncIndicator = document.getElementById("syncIndicator");
 
     // =========================================================================
-    // 2. REAL-TIME FIREBASE SYNC + LOCAL CACHE
+    // 2. AUTH + REAL-TIME FIREBASE SYNC + LOCAL CACHE
     // =========================================================================
     const LOCAL_KEY = "psr_e473_bypaulm_cache_v1";
     let songs = loadLocalSongs();
+    let dbListenerStarted = false;
 
     function loadLocalSongs() {
       try {
@@ -730,31 +737,53 @@
       localStorage.setItem(LOCAL_KEY, JSON.stringify(list));
     }
 
-    onValue(
-      songsRef,
-      (snapshot) => {
-        const val = snapshot.val();
-        const cloudSongs = [];
-        if (val && typeof val === "object") {
-          Object.entries(val).forEach(([id, data]) => {
-            if (data && typeof data === "object") {
-              cloudSongs.push({ id, ...data });
-            }
-          });
+    function startSongsListener() {
+      if (dbListenerStarted) return;
+      dbListenerStarted = true;
+
+      onValue(
+        songsRef,
+        (snapshot) => {
+          const val = snapshot.val();
+          const cloudSongs = [];
+          if (val && typeof val === "object") {
+            Object.entries(val).forEach(([id, data]) => {
+              if (data && typeof data === "object") {
+                cloudSongs.push({ id, ...data });
+              }
+            });
+          }
+          cloudSongs.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+          songs = cloudSongs;
+          saveLocalSongs(songs);
+          syncIndicator.innerHTML = `<span class="status-dot"></span>Firebase Connected (mobile-presenter)`;
+          renderHome(searchInput.value);
+        },
+        (error) => {
+          console.error("Firebase Realtime Database error:", error);
+          syncIndicator.innerHTML = `<span class="status-dot connecting"></span>Permission Denied — Add psr_e473_songs rule`;
         }
-        cloudSongs.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
-        songs = cloudSongs;
-        saveLocalSongs(songs);
-        syncIndicator.innerHTML = `<span class="status-dot"></span>Firebase Connected (mobile-presenter)`;
-        renderHome(searchInput.value);
-      },
-      (error) => {
-        console.error("Firebase Realtime Database error:", error);
-        syncIndicator.innerHTML = `<span class="status-dot connecting"></span>Offline / Check Firebase RTDB Rules`;
+      );
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        startSongsListener();
+      } else {
+        try {
+          await signInAnonymously(auth);
+        } catch (err) {
+          console.error("Anonymous sign-in error:", err);
+          syncIndicator.innerHTML = `<span class="status-dot connecting"></span>Enable Anonymous Auth in Firebase`;
+        }
       }
-    );
+    });
 
     async function persistSongToFirebase(song) {
+      if (!auth.currentUser) {
+        await signInAnonymously(auth);
+      }
+
       const nextList = songs.some((s) => s.id === song.id)
         ? songs.map((s) => (s.id === song.id ? song : s))
         : [song, ...songs];
@@ -772,6 +801,10 @@
     }
 
     async function removeSongFromFirebase(id) {
+      if (!auth.currentUser) {
+        await signInAnonymously(auth);
+      }
+
       const updated = songs.filter((s) => s.id !== id);
       songs = updated;
       saveLocalSongs(updated);
