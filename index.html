@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PSR-E473 Set Up</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-hover: #334155;
+      --border: #334155;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --accent: #38bdf8;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --danger: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 40px;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, #020617 0%, #1e293b 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .brand h1 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-add {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s;
+    }
+
+    .btn-add:hover {
+      background-color: var(--primary-hover);
+    }
+
+    /* Main Container */
+    main {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+
+    /* Search & Auto-Suggest */
+    .search-wrapper {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 14px 16px;
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+    }
+
+    .suggestions-box {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      right: 0;
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      z-index: 20;
+      max-height: 240px;
+      overflow-y: auto;
+      display: none;
+    }
+
+    .suggestions-box.active {
+      display: block;
+    }
+
+    .suggestion-item {
+      padding: 12px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .suggestion-item:last-child {
+      border-bottom: none;
+    }
+
+    .suggestion-item:hover {
+      background-color: var(--surface-hover);
+    }
+
+    .suggestion-meta {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Song Cards List */
+    .song-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 50px 20px;
+      color: var(--text-muted);
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px dashed var(--border);
+    }
+
+    .song-card {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      transition: transform 0.1s;
+    }
+
+    .song-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      gap: 10px;
+    }
+
+    .song-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .song-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-sm {
+      background: var(--bg);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    .btn-sm:hover {
+      color: #fff;
+      border-color: var(--text-muted);
+    }
+
+    .btn-sm.delete:hover {
+      color: var(--danger);
+      border-color: var(--danger);
+    }
+
+    .psr-badges {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .badge {
+      background-color: var(--bg);
+      padding: 10px 12px;
+      border-radius: 8px;
+      border-left: 3px solid var(--accent);
+    }
+
+    .badge.style-badge {
+      border-left-color: #a855f7;
+    }
+
+    .badge-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.8px;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .badge-val {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .chord-preview {
+      background-color: #0b1120;
+      padding: 12px;
+      border-radius: 8px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+      color: #e2e8f0;
+      line-height: 1.5;
+      border: 1px solid #1e293b;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.82);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      z-index: 50;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      width: 100%;
+      max-width: 540px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 22px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .modal-header h2 {
+      font-size: 1.25rem;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 12px;
+      background-color: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent);
+    }
+
+    .row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* Chords Table & Transpose Box */
+    .chords-section {
+      background-color: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 8px;
+    }
+
+    .transpose-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .transpose-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-trans {
+      background-color: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      width: 34px;
+      height: 34px;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-trans:hover {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .transpose-indicator {
+      font-size: 0.85rem;
+      font-weight: 700;
+      min-width: 48px;
+      text-align: center;
+      color: var(--accent);
+    }
+
+    textarea.chord-editor {
+      width: 100%;
+      min-height: 130px;
+      background: #090d16;
+      color: #38bdf8;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px;
+      font-family: "Courier New", Courier, monospace;
+      font-size: 1rem;
+      line-height: 1.5;
+      resize: vertical;
+      outline: none;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn-cancel {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .btn-save {
+      background: var(--primary);
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Header -->
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-tag">Yamaha Keyboard Manager</span>
+        <h1>PSR-E473 Set Up</h1>
+      </div>
+      <button class="btn-add" id="openModalBtn">+ Add Song</button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Real-time Search with Auto-Suggest -->
+    <div class="search-wrapper">
+      <input
+        type="text"
+        id="searchInput"
+        class="search-input"
+        placeholder="Search saved songs, voices, styles, or chords..."
+        autocomplete="off"
+      />
+      <div class="suggestions-box" id="suggestionsBox"></div>
+    </div>
+
+    <!-- Saved Songs List -->
+    <div class="song-list" id="songList"></div>
+  </main>
+
+  <!-- Add / Edit Song Modal -->
+  <div class="modal-overlay" id="songModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add PSR-E473 Song Setup</h2>
+        <button class="close-btn" id="closeModalBtn">&times;</button>
+      </div>
+
+      <form id="songForm">
+        <input type="hidden" id="songId" />
+
+        <div class="form-group">
+          <label for="titleInput">Song Title</label>
+          <input type="text" id="titleInput" class="form-control" placeholder="e.g., Autumn Leaves" required />
+        </div>
+
+        <div class="row-2">
+          <div class="form-group">
+            <label for="voiceInput">Voice (No. & Name)</label>
+            <input type="text" id="voiceInput" class="form-control" placeholder="e.g., 001 Live! Grand Piano" required />
+          </div>
+          <div class="form-group">
+            <label for="styleInput">Style (No. / Name / Tempo)</label>
+            <input type="text" id="styleInput" class="form-control" placeholder="e.g., 145 Jazz Club (120 BPM)" required />
+          </div>
+        </div>
+
+        <!-- Chords Table & Transpose -->
+        <div class="form-group">
+          <label>Chords Table</label>
+          <div class="chords-section">
+            <div class="transpose-bar">
+              <span style="font-size: 0.82rem; color: var(--text-muted);">Transpose Chords</span>
+              <div class="transpose-controls">
+                <button type="button" class="btn-trans" id="transposeDown" title="Transpose Down (-1)">-</button>
+                <span class="transpose-indicator" id="transposeOffset">0</span>
+                <button type="button" class="btn-trans" id="transposeUp" title="Transpose Up (+1)">+</button>
+              </div>
+            </div>
+            <textarea
+              id="chordsInput"
+              class="chord-editor"
+              placeholder="| Am7   | D7    | Gmaj7 | Cmaj7 |&#10;| F#m7b5| B7    | Em    | E7    |"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-cancel" id="cancelModalBtn">Cancel</button>
+          <button type="submit" class="btn-save">Save Setup</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // --- Initial Sample Data ---
+    const defaultSongs = [
+      {
+        id: "1",
+        title: "Sunday Morning",
+        voice: "014 Suitcase EP",
+        style: "042 Cool Jazz Pop (88 BPM)",
+        chords: "| Dm7   | G7    | Cmaj7 | Cmaj7 |\n| Dm7   | G7    | Cmaj7 | A7    |"
+      },
+      {
+        id: "2",
+        title: "Hallelujah",
+        voice: "001 Live! Grand Piano",
+        style: "112 6/8 Slow Rock (56 BPM)",
+        chords: "| C     | Am    | C     | Am    |\n| F     | G     | C     | G     |"
+      }
+    ];
+
+    let songs = JSON.parse(localStorage.getItem("psr_e473_songs")) || defaultSongs;
+    let currentTranspose = 0;
+
+    // --- DOM Elements ---
+    const songListEl = document.getElementById("songList");
+    const searchInput = document.getElementById("searchInput");
+    const suggestionsBox = document.getElementById("suggestionsBox");
+    const songModal = document.getElementById("songModal");
+    const songForm = document.getElementById("songForm");
+    const modalTitle = document.getElementById("modalTitle");
+
+    const songIdInput = document.getElementById("songId");
+    const titleInput = document.getElementById("titleInput");
+    const voiceInput = document.getElementById("voiceInput");
+    const styleInput = document.getElementById("styleInput");
+    const chordsInput = document.getElementById("chordsInput");
+    const transposeOffsetEl = document.getElementById("transposeOffset");
+
+    // --- Save to LocalStorage ---
+    function saveSongs() {
+      localStorage.setItem("psr_e473_songs", JSON.stringify(songs));
+    }
+
+    // --- Render Song Cards ---
+    function renderSongs(filterText = "") {
+      const query = filterText.trim().toLowerCase();
+      const filtered = songs.filter(song =>
+        song.title.toLowerCase().includes(query) ||
+        song.voice.toLowerCase().includes(query) ||
+        song.style.toLowerCase().includes(query) ||
+        song.chords.toLowerCase().includes(query)
+      );
+
+      if (filtered.length === 0) {
+        songListEl.innerHTML = `
+          <div class="empty-state">
+            <p>No PSR-E473 setups found.</p>
+            <p style="font-size: 0.85rem; margin-top: 6px;">Tap <strong>+ Add Song</strong> to create a new patch setup.</p>
+          </div>
+        `;
+        return;
+      }
+
+      songListEl.innerHTML = filtered.map(song => `
+        <div class="song-card">
+          <div class="song-header">
+            <div class="song-title">${escapeHtml(song.title)}</div>
+            <div class="song-actions">
+              <button class="btn-sm" onclick="editSong('${song.id}')">Edit / Transpose</button>
+              <button class="btn-sm delete" onclick="deleteSong('${song.id}')">Delete</button>
+            </div>
+          </div>
+          <div class="psr-badges">
+            <div class="badge">
+              <span class="badge-label">Voice</span>
+              <span class="badge-val">${escapeHtml(song.voice)}</span>
+            </div>
+            <div class="badge style-badge">
+              <span class="badge-label">Style</span>
+              <span class="badge-val">${escapeHtml(song.style)}</span>
+            </div>
+          </div>
+          ${song.chords ? `<div class="chord-preview">${escapeHtml(song.chords)}</div>` : ""}
+        </div>
+      `).join("");
+    }
+
+    // --- Real-Time Search & Auto-Suggest ---
+    searchInput.addEventListener("input", () => {
+      const val = searchInput.value;
+      renderSongs(val);
+      updateSuggestions(val);
+    });
+
+    function updateSuggestions(query) {
+      const clean = query.trim().toLowerCase();
+      if (!clean) {
+        suggestionsBox.classList.remove("active");
+        return;
+      }
+
+      // Build unique word & title suggestions from saved songs
+      const matches = songs.filter(s =>
+        s.title.toLowerCase().includes(clean) ||
+        s.voice.toLowerCase().includes(clean) ||
+        s.style.toLowerCase().includes(clean)
+      );
+
+      if (matches.length === 0) {
+        suggestionsBox.classList.remove("active");
+        return;
+      }
+
+      suggestionsBox.innerHTML = matches.map(s => `
+        <div class="suggestion-item" onclick="selectSuggestion('${escapeHtml(s.title)}')">
+          <strong>${escapeHtml(s.title)}</strong>
+          <span class="suggestion-meta">${escapeHtml(s.voice)} • ${escapeHtml(s.style)}</span>
+        </div>
+      `).join("");
+
+      suggestionsBox.classList.add("active");
+    }
+
+    window.selectSuggestion = function(title) {
+      searchInput.value = title;
+      suggestionsBox.classList.remove("active");
+      renderSongs(title);
+    };
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest(".search-wrapper")) {
+        suggestionsBox.classList.remove("active");
+      }
+    });
+
+    // --- Chord Transposition Engine ---
+    const NOTES_SHARP = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+    const NOTES_FLAT  = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
+
+    function transposeText(text, semitones) {
+      // Matches chords like C, F#m7, Bbmaj7, G/B, Dsus4 while ignoring plain words
+      return text.replace(/\b([A-G](?:#|b)?)((?:maj|min|m|dim|aug|sus|add)?[0-9]*(?:b5|#5|b9|#9|#11|b13)?(?:\/[A-G](?:#|b)?)?)(?=\s|\||$|\/)/g, (match, root, suffix) => {
+        const transposedRoot = shiftNote(root, semitones);
+        let transposedSuffix = suffix;
+
+        // Handle slash bass notes (e.g., C/G -> D/A)
+        if (suffix.includes("/")) {
+          const parts = suffix.split("/");
+          transposedSuffix = parts[0] + "/" + shiftNote(parts[1], semitones);
+        }
+
+        return transposedRoot + transposedSuffix;
+      });
+    }
+
+    function shiftNote(note, semitones) {
+      let idx = NOTES_SHARP.indexOf(note);
+      let useFlats = false;
+      if (idx === -1) {
+        idx = NOTES_FLAT.indexOf(note);
+        useFlats = true;
+      }
+      if (idx === -1) return note;
+
+      const newIdx = (idx + semitones + 12) % 12;
+      return useFlats ? NOTES_FLAT[newIdx] : NOTES_SHARP[newIdx];
+    }
+
+    document.getElementById("transposeUp").addEventListener("click", () => {
+      currentTranspose++;
+      updateTransposeDisplay();
+      chordsInput.value = transposeText(chordsInput.value, 1);
+    });
+
+    document.getElementById("transposeDown").addEventListener("click", () => {
+      currentTranspose--;
+      updateTransposeDisplay();
+      chordsInput.value = transposeText(chordsInput.value, -1);
+    });
+
+    function updateTransposeDisplay() {
+      transposeOffsetEl.textContent = currentTranspose > 0 ? `+${currentTranspose}` : `${currentTranspose}`;
+    }
+
+    // --- Modal Controls ---
+    function openModal(isEdit = false) {
+      modalTitle.textContent = isEdit ? "Edit PSR-E473 Setup" : "Add PSR-E473 Song Setup";
+      currentTranspose = 0;
+      updateTransposeDisplay();
+      songModal.classList.add("open");
+    }
+
+    function closeModal() {
+      songModal.classList.remove("open");
+      songForm.reset();
+      songIdInput.value = "";
+    }
+
+    document.getElementById("openModalBtn").addEventListener("click", () => openModal(false));
+    document.getElementById("closeModalBtn").addEventListener("click", closeModal);
+    document.getElementById("cancelModalBtn").addEventListener("click", closeModal);
+
+    // --- Save / Edit / Delete ---
+    songForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const id = songIdInput.value;
+      const newSong = {
+        id: id || Date.now().toString(),
+        title: titleInput.value.trim(),
+        voice: voiceInput.value.trim(),
+        style: styleInput.value.trim(),
+        chords: chordsInput.value.trim()
+      };
+
+      if (id) {
+        const index = songs.findIndex(s => s.id === id);
+        if (index !== -1) songs[index] = newSong;
+      } else {
+        songs.unshift(newSong);
+      }
+
+      saveSongs();
+      renderSongs(searchInput.value);
+      closeModal();
+    });
+
+    window.editSong = function(id) {
+      const song = songs.find(s => s.id === id);
+      if (!song) return;
+      songIdInput.value = song.id;
+      titleInput.value = song.title;
+      voiceInput.value = song.voice;
+      styleInput.value = song.style;
+      chordsInput.value = song.chords;
+      openModal(true);
+    };
+
+    window.deleteSong = function(id) {
+      if (!confirm("Delete this song setup?")) return;
+      songs = songs.filter(s => s.id !== id);
+      saveSongs();
+      renderSongs(searchInput.value);
+    };
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>"']/g, m => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[m]));
+    }
+
+    // Initial Render
+    renderSongs();
+  </script>
+</body>
+</html>
