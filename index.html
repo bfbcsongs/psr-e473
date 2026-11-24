@@ -54,7 +54,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .header-left {
@@ -62,6 +62,13 @@
       align-items: center;
       gap: 8px;
       min-width: 0;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
     }
 
     .btn-back {
@@ -98,7 +105,7 @@
     }
 
     .brand h1 {
-      font-size: 1.05rem;
+      font-size: 1.02rem;
       font-weight: 800;
       color: var(--text);
       white-space: nowrap;
@@ -110,16 +117,35 @@
       background-color: var(--primary);
       color: #fff;
       border: none;
-      padding: 6px 12px;
+      padding: 6px 10px;
       border-radius: 7px;
       font-weight: 700;
-      font-size: 0.8rem;
+      font-size: 0.76rem;
       cursor: pointer;
       flex-shrink: 0;
+      white-space: nowrap;
     }
 
     .btn-add:hover {
       background-color: var(--primary-hover);
+    }
+
+    .btn-nav {
+      background-color: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 6px 9px;
+      border-radius: 7px;
+      font-weight: 700;
+      font-size: 0.76rem;
+      cursor: pointer;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
+
+    .btn-nav:hover {
+      background-color: var(--surface-hover);
+      border-color: var(--accent);
     }
 
     .sync-status {
@@ -543,6 +569,247 @@
       cursor: not-allowed;
     }
 
+    /* Setlist List View */
+    .setlist-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .setlist-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px;
+    }
+
+    .setlist-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .setlist-name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .setlist-mod {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+
+    .cat-play-btn {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      color: var(--text);
+    }
+
+    .cat-play-btn:hover:not(:disabled) {
+      background: var(--surface-hover);
+      border-color: var(--accent);
+    }
+
+    .cat-play-btn:disabled {
+      opacity: 0.55;
+      cursor: default;
+    }
+
+    .cat-label {
+      font-size: 0.64rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--accent);
+    }
+
+    .cat-song-title {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .cat-empty {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* +Setlist Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 15, 0.82);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      z-index: 50;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 480px;
+      max-height: 90dvh;
+      overflow-y: auto;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-head h2 {
+      font-size: 1rem;
+      font-weight: 800;
+    }
+
+    .modal-close {
+      background: var(--surface-2);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 3px 9px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .slot-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .slot-row {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 9px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slot-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .slot-cat {
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--accent);
+    }
+
+    .slot-song {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .btn-plus-slot {
+      background: var(--surface-2);
+      color: var(--accent);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .btn-plus-slot:hover {
+      background: var(--surface-hover);
+      border-color: var(--accent);
+    }
+
+    .picker-box {
+      background: var(--surface-2);
+      border: 1px solid var(--accent);
+      border-radius: 9px;
+      padding: 8px;
+      display: none;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .picker-box.open {
+      display: flex;
+    }
+
+    .picker-list {
+      max-height: 150px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .picker-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 9px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .picker-item:hover {
+      border-color: var(--accent);
+      background: var(--surface);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
     .empty-state {
       text-align: center;
       padding: 32px 16px;
@@ -587,7 +854,11 @@
           <h1 id="headerTitle">PSR E473 bypaulm</h1>
         </div>
       </div>
-      <button type="button" class="btn-add" id="addSongBtn">+ Add Song</button>
+      <div class="header-actions" id="homeActions">
+        <button type="button" class="btn-nav" id="openSetlistModalBtn">+Setlist</button>
+        <button type="button" class="btn-nav" id="openSetlistsViewBtn">Setlist</button>
+        <button type="button" class="btn-add" id="addSongBtn">+ Add Song</button>
+      </div>
     </div>
     <div class="sync-status">
       <span id="syncIndicator"><span class="status-dot connecting" id="statusDot"></span>Signing in to mobile-presenter...</span>
@@ -609,6 +880,11 @@
     </div>
 
     <div class="song-list" id="songList"></div>
+  </section>
+
+  <!-- SETLISTS PAGE (Sorted by Modified) -->
+  <section id="setlistsView" class="view">
+    <div class="setlist-stack" id="setlistsContainer"></div>
   </section>
 
   <!-- SIMPLIFIED ADD / EDIT SONG PAGE -->
@@ -676,6 +952,40 @@
     <div class="chord-sheet maximized" id="playChordsScreen"></div>
   </section>
 
+  <!-- +SETLIST MODAL -->
+  <div class="modal-backdrop" id="setlistModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2 id="setlistModalTitle">New Setlist</h2>
+        <button type="button" class="modal-close" id="closeSetlistModalBtn">✕</button>
+      </div>
+
+      <form id="setlistForm">
+        <input type="hidden" id="editingSetlistId" />
+        <div class="field-stack" style="margin-bottom: 8px;">
+          <label for="setlistNameInput">Setlist Name *</label>
+          <input type="text" id="setlistNameInput" placeholder="e.g. Sunday Service" required />
+        </div>
+
+        <div class="slot-list" id="setlistSlotsList"></div>
+
+        <div class="picker-box" id="songPickerBox">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:0.75rem;font-weight:800;color:var(--accent);" id="pickerHeading">Select Song</span>
+            <button type="button" class="btn-action" id="cancelPickerBtn">Cancel</button>
+          </div>
+          <input type="text" id="pickerSearchInput" class="clean-input" placeholder="Filter songs..." />
+          <div class="picker-list" id="pickerList"></div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-action" id="addCustomSlotBtn">+ Add Slot</button>
+          <button type="submit" class="btn-save" id="saveSetlistBtn">Save Setlist</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <div class="toast" id="toast"></div>
 
   <!-- Firebase SDK v13.4.0 (Modular ES Module) -->
@@ -712,19 +1022,23 @@
     const auth = getAuth(app);
     const rtdb = getDatabase(app);
     const songsRef = ref(rtdb, "psr_e473_songs");
+    const setlistsRef = ref(rtdb, "psr_e473_setlists");
 
     const syncIndicator = document.getElementById("syncIndicator");
 
     // =========================================================================
-    // 2. AUTH + REAL-TIME FIREBASE SYNC + LOCAL CACHE
+    // 2. AUTH + REAL-TIME FIREBASE SYNC (SONGS & SETLISTS) + LOCAL CACHE
     // =========================================================================
-    const LOCAL_KEY = "psr_e473_bypaulm_cache_v1";
-    let songs = loadLocalSongs();
-    let dbListenerStarted = false;
+    const SONGS_CACHE_KEY = "psr_e473_bypaulm_cache_v1";
+    const SETLISTS_CACHE_KEY = "psr_e473_bypaulm_setlists_v1";
 
-    function loadLocalSongs() {
+    let songs = loadCache(SONGS_CACHE_KEY);
+    let setlists = loadCache(SETLISTS_CACHE_KEY);
+    let dbListenersStarted = false;
+
+    function loadCache(key) {
       try {
-        const raw = localStorage.getItem(LOCAL_KEY);
+        const raw = localStorage.getItem(key);
         if (!raw) return [];
         const parsed = JSON.parse(raw);
         return Array.isArray(parsed) ? parsed : [];
@@ -733,13 +1047,17 @@
       }
     }
 
-    function saveLocalSongs(list) {
-      localStorage.setItem(LOCAL_KEY, JSON.stringify(list));
+    function saveCache(key, list) {
+      localStorage.setItem(key, JSON.stringify(list));
     }
 
-    function startSongsListener() {
-      if (dbListenerStarted) return;
-      dbListenerStarted = true;
+    function sortSetlistsByModified(list) {
+      return [...list].sort((a, b) => (b.modifiedAt || b.updatedAt || 0) - (a.modifiedAt || a.updatedAt || 0));
+    }
+
+    function startDbListeners() {
+      if (dbListenersStarted) return;
+      dbListenersStarted = true;
 
       onValue(
         songsRef,
@@ -755,20 +1073,42 @@
           }
           cloudSongs.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
           songs = cloudSongs;
-          saveLocalSongs(songs);
+          saveCache(SONGS_CACHE_KEY, songs);
           syncIndicator.innerHTML = `<span class="status-dot"></span>Firebase Connected (mobile-presenter)`;
           renderHome(searchInput.value);
+          renderSetlistsView();
         },
         (error) => {
           console.error("Firebase Realtime Database error:", error);
-          syncIndicator.innerHTML = `<span class="status-dot connecting"></span>Permission Denied — Add psr_e473_songs rule`;
+          syncIndicator.innerHTML = `<span class="status-dot connecting"></span>Permission Denied — Add RTDB rules`;
+        }
+      );
+
+      onValue(
+        setlistsRef,
+        (snapshot) => {
+          const val = snapshot.val();
+          const cloudSetlists = [];
+          if (val && typeof val === "object") {
+            Object.entries(val).forEach(([id, data]) => {
+              if (data && typeof data === "object") {
+                cloudSetlists.push({ id, ...data });
+              }
+            });
+          }
+          setlists = sortSetlistsByModified(cloudSetlists);
+          saveCache(SETLISTS_CACHE_KEY, setlists);
+          renderSetlistsView();
+        },
+        (error) => {
+          console.error("Firebase setlists error:", error);
         }
       );
     }
 
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        startSongsListener();
+        startDbListeners();
       } else {
         try {
           await signInAnonymously(auth);
@@ -788,7 +1128,7 @@
         ? songs.map((s) => (s.id === song.id ? song : s))
         : [song, ...songs];
       songs = nextList;
-      saveLocalSongs(nextList);
+      saveCache(SONGS_CACHE_KEY, nextList);
 
       await set(ref(rtdb, `psr_e473_songs/${song.id}`), {
         title: song.title,
@@ -807,9 +1147,41 @@
 
       const updated = songs.filter((s) => s.id !== id);
       songs = updated;
-      saveLocalSongs(updated);
+      saveCache(SONGS_CACHE_KEY, updated);
 
       await remove(ref(rtdb, `psr_e473_songs/${id}`));
+    }
+
+    async function persistSetlistToFirebase(setlistObj) {
+      if (!auth.currentUser) {
+        await signInAnonymously(auth);
+      }
+
+      const stamped = {
+        ...setlistObj,
+        modifiedAt: Date.now()
+      };
+
+      const nextList = setlists.some((item) => item.id === stamped.id)
+        ? setlists.map((item) => (item.id === stamped.id ? stamped : item))
+        : [stamped, ...setlists];
+
+      setlists = sortSetlistsByModified(nextList);
+      saveCache(SETLISTS_CACHE_KEY, setlists);
+
+      await set(ref(rtdb, `psr_e473_setlists/${stamped.id}`), stamped);
+    }
+
+    async function removeSetlistFromFirebase(id) {
+      if (!auth.currentUser) {
+        await signInAnonymously(auth);
+      }
+
+      const updated = setlists.filter((item) => item.id !== id);
+      setlists = updated;
+      saveCache(SETLISTS_CACHE_KEY, updated);
+
+      await remove(ref(rtdb, `psr_e473_setlists/${id}`));
     }
 
     // =========================================================================
@@ -818,8 +1190,11 @@
     let navStack = [{ page: "home" }];
 
     const backBtn = document.getElementById("backBtn");
+    const homeActions = document.getElementById("homeActions");
     const addSongBtn = document.getElementById("addSongBtn");
+    const openSetlistsViewBtn = document.getElementById("openSetlistsViewBtn");
     const homeView = document.getElementById("homeView");
+    const setlistsView = document.getElementById("setlistsView");
     const editorView = document.getElementById("editorView");
     const playView = document.getElementById("playView");
     const headerTitle = document.getElementById("headerTitle");
@@ -866,33 +1241,42 @@
 
     function applyRoute(state) {
       homeView.classList.remove("active");
+      setlistsView.classList.remove("active");
       editorView.classList.remove("active");
       playView.classList.remove("active");
 
       if (state.page === "home") {
         homeView.classList.add("active");
         backBtn.style.display = "none";
-        addSongBtn.style.display = "inline-flex";
+        homeActions.style.display = "flex";
         headerSub.textContent = "YAMAHA KEYBOARD MANAGER";
         headerTitle.textContent = "PSR E473 bypaulm";
         renderHome(searchInput.value);
+      } else if (state.page === "setlists") {
+        setlistsView.classList.add("active");
+        backBtn.style.display = "inline-flex";
+        homeActions.style.display = "none";
+        headerSub.textContent = "SORTED BY MODIFIED";
+        headerTitle.textContent = "Setlists";
+        renderSetlistsView();
       } else if (state.page === "editor") {
         editorView.classList.add("active");
         backBtn.style.display = "inline-flex";
-        addSongBtn.style.display = "none";
+        homeActions.style.display = "none";
         headerSub.textContent = "PSR E473 BYPAULM";
         headerTitle.textContent = state.songId ? "Edit Song" : "Add Song";
         loadEditor(state.songId || null);
       } else if (state.page === "play") {
         playView.classList.add("active");
         backBtn.style.display = "inline-flex";
-        addSongBtn.style.display = "none";
+        homeActions.style.display = "none";
         loadPlayScreen(state.songId);
       }
     }
 
     backBtn.addEventListener("click", goBackOneStep);
     addSongBtn.addEventListener("click", () => navigateTo({ page: "editor", songId: null }));
+    openSetlistsViewBtn.addEventListener("click", () => navigateTo({ page: "setlists" }));
 
     // =========================================================================
     // 4. CHORD HIGHLIGHTING (GREEN ONLY ON CHORDS) & TRANSPOSITION ENGINE
@@ -1208,7 +1592,303 @@
     });
 
     // =========================================================================
-    // 8. HELPERS
+    // 8. SETLISTER (+SETLIST MODAL, SORTED BY MODIFIED, PLAY CATEGORY)
+    // =========================================================================
+    const DEFAULT_CATEGORIES = [
+      "Opening",
+      "Joyful",
+      "Solemn",
+      "Pastoral",
+      "Giving",
+      "Closing"
+    ];
+
+    const setlistModal = document.getElementById("setlistModal");
+    const setlistModalTitle = document.getElementById("setlistModalTitle");
+    const setlistForm = document.getElementById("setlistForm");
+    const editingSetlistId = document.getElementById("editingSetlistId");
+    const setlistNameInput = document.getElementById("setlistNameInput");
+    const setlistSlotsList = document.getElementById("setlistSlotsList");
+    const songPickerBox = document.getElementById("songPickerBox");
+    const pickerHeading = document.getElementById("pickerHeading");
+    const pickerSearchInput = document.getElementById("pickerSearchInput");
+    const pickerList = document.getElementById("pickerList");
+    const setlistsContainer = document.getElementById("setlistsContainer");
+
+    let draftSlots = [];
+    let activePickerSlotIndex = null;
+    let customSlotCounter = 1;
+
+    function buildDefaultSlots(existingSlots = null) {
+      if (Array.isArray(existingSlots) && existingSlots.length > 0) {
+        return existingSlots.map((slot) => ({
+          category: slot.category || "Slot",
+          songId: slot.songId || "",
+          songTitle: slot.songTitle || ""
+        }));
+      }
+      return DEFAULT_CATEGORIES.map((category) => ({
+        category,
+        songId: "",
+        songTitle: ""
+      }));
+    }
+
+    function openSetlistModal(existingSetlist = null) {
+      songPickerBox.classList.remove("open");
+      activePickerSlotIndex = null;
+      customSlotCounter = 1;
+
+      if (existingSetlist) {
+        setlistModalTitle.textContent = "Edit Setlist";
+        editingSetlistId.value = existingSetlist.id;
+        setlistNameInput.value = existingSetlist.name || "";
+        draftSlots = buildDefaultSlots(existingSetlist.slots);
+      } else {
+        setlistModalTitle.textContent = "New Setlist";
+        editingSetlistId.value = "";
+        setlistNameInput.value = "";
+        draftSlots = buildDefaultSlots();
+      }
+
+      renderDraftSlots();
+      setlistModal.classList.add("open");
+      setlistNameInput.focus();
+    }
+
+    function closeSetlistModal() {
+      setlistModal.classList.remove("open");
+      songPickerBox.classList.remove("open");
+      activePickerSlotIndex = null;
+    }
+
+    function renderDraftSlots() {
+      setlistSlotsList.innerHTML = draftSlots
+        .map((slot, idx) => {
+          const matchedSong = songs.find((s) => s.id === slot.songId);
+          const displaySong = matchedSong ? matchedSong.title : (slot.songTitle || "No song selected");
+          return `
+            <div class="slot-row">
+              <div class="slot-info">
+                <div class="slot-cat">${escapeHtml(slot.category)}</div>
+                <div class="slot-song">${escapeHtml(displaySong)}</div>
+              </div>
+              <button type="button" class="btn-plus-slot" data-pick-slot="${idx}">+</button>
+            </div>
+          `;
+        })
+        .join("");
+    }
+
+    function openSongPicker(slotIndex) {
+      activePickerSlotIndex = slotIndex;
+      const slot = draftSlots[slotIndex];
+      pickerHeading.textContent = `Pick song for ${slot.category}`;
+      pickerSearchInput.value = "";
+      renderPickerList("");
+      songPickerBox.classList.add("open");
+      pickerSearchInput.focus();
+    }
+
+    function renderPickerList(filterText) {
+      const q = filterText.trim().toLowerCase();
+      const matches = songs.filter((s) => (s.title || "").toLowerCase().includes(q));
+
+      if (matches.length === 0) {
+        pickerList.innerHTML = `<div style="font-size:0.78rem;color:var(--text-muted);padding:4px;">No saved songs match.</div>`;
+        return;
+      }
+
+      pickerList.innerHTML = matches
+        .map(
+          (s) => `
+          <button type="button" class="picker-item" data-choose-song="${s.id}">
+            ${escapeHtml(s.title)}
+          </button>
+        `
+        )
+        .join("");
+    }
+
+    document.getElementById("openSetlistModalBtn").addEventListener("click", () => openSetlistModal(null));
+    document.getElementById("closeSetlistModalBtn").addEventListener("click", closeSetlistModal);
+
+    setlistModal.addEventListener("click", (e) => {
+      if (e.target === setlistModal) closeSetlistModal();
+    });
+
+    setlistSlotsList.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-pick-slot]");
+      if (!btn) return;
+      openSongPicker(Number(btn.dataset.pickSlot));
+    });
+
+    document.getElementById("addCustomSlotBtn").addEventListener("click", () => {
+      draftSlots.push({
+        category: `Extra ${customSlotCounter++}`,
+        songId: "",
+        songTitle: ""
+      });
+      renderDraftSlots();
+      openSongPicker(draftSlots.length - 1);
+    });
+
+    document.getElementById("cancelPickerBtn").addEventListener("click", () => {
+      songPickerBox.classList.remove("open");
+      activePickerSlotIndex = null;
+    });
+
+    pickerSearchInput.addEventListener("input", () => {
+      renderPickerList(pickerSearchInput.value);
+    });
+
+    pickerList.addEventListener("click", (e) => {
+      const chosenBtn = e.target.closest("[data-choose-song]");
+      if (!chosenBtn || activePickerSlotIndex === null) return;
+      const chosenId = chosenBtn.dataset.chooseSong;
+      const chosenSong = songs.find((s) => s.id === chosenId);
+      if (!chosenSong) return;
+
+      draftSlots[activePickerSlotIndex].songId = chosenSong.id;
+      draftSlots[activePickerSlotIndex].songTitle = chosenSong.title;
+      songPickerBox.classList.remove("open");
+      activePickerSlotIndex = null;
+      renderDraftSlots();
+    });
+
+    setlistForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = setlistNameInput.value.trim();
+      if (!name) {
+        setlistNameInput.focus();
+        showToast("Setlist name is required");
+        return;
+      }
+
+      const saveBtn = document.getElementById("saveSetlistBtn");
+      saveBtn.disabled = true;
+
+      const setlistPayload = {
+        id: editingSetlistId.value || `setlist-${Date.now()}`,
+        name,
+        slots: draftSlots.map((slot) => ({
+          category: slot.category,
+          songId: slot.songId || "",
+          songTitle: slot.songTitle || ""
+        })),
+        modifiedAt: Date.now()
+      };
+
+      try {
+        await persistSetlistToFirebase(setlistPayload);
+        closeSetlistModal();
+        showToast("Setlist saved");
+        if (navStack[navStack.length - 1]?.page !== "setlists") {
+          navigateTo({ page: "setlists" });
+        } else {
+          renderSetlistsView();
+        }
+      } catch (err) {
+        console.error(err);
+        showToast("Failed to save setlist");
+      } finally {
+        saveBtn.disabled = false;
+      }
+    });
+
+    function formatModifiedTime(ts) {
+      if (!ts) return "";
+      const d = new Date(ts);
+      return d.toLocaleString([], {
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+    function renderSetlistsView() {
+      const sorted = sortSetlistsByModified(setlists);
+      if (sorted.length === 0) {
+        setlistsContainer.innerHTML = `
+          <div class="empty-state">
+            <p>No saved setlists yet.</p>
+            <p style="font-size:0.78rem;margin-top:4px;">Tap <strong>+Setlist</strong> to create one.</p>
+          </div>
+        `;
+        return;
+      }
+
+      setlistsContainer.innerHTML = sorted
+        .map((sl) => {
+          const slots = buildDefaultSlots(sl.slots);
+          const buttonsHtml = slots
+            .map((slot) => {
+              const matchedSong = songs.find((s) => s.id === slot.songId);
+              const targetId = matchedSong ? matchedSong.id : "";
+              const labelTitle = matchedSong ? matchedSong.title : (slot.songTitle || "Empty");
+              return `
+                <button
+                  type="button"
+                  class="cat-play-btn"
+                  data-play-song="${escapeHtml(targetId)}"
+                  ${targetId ? "" : "disabled"}
+                >
+                  <span class="cat-label">${escapeHtml(slot.category)}</span>
+                  <span class="${targetId ? "cat-song-title" : "cat-empty"}">${escapeHtml(labelTitle)}</span>
+                </button>
+              `;
+            })
+            .join("");
+
+          return `
+            <div class="setlist-card">
+              <div class="setlist-card-top">
+                <div>
+                  <div class="setlist-name">${escapeHtml(sl.name)}</div>
+                  <div class="setlist-mod">Modified: ${escapeHtml(formatModifiedTime(sl.modifiedAt || sl.updatedAt))}</div>
+                </div>
+                <div class="song-actions">
+                  <button type="button" class="btn-action" data-edit-setlist="${sl.id}">Edit</button>
+                  <button type="button" class="btn-action btn-delete" data-del-setlist="${sl.id}">Delete</button>
+                </div>
+              </div>
+              <div class="category-grid">${buttonsHtml}</div>
+            </div>
+          `;
+        })
+        .join("");
+    }
+
+    setlistsContainer.addEventListener("click", async (e) => {
+      const playSongBtn = e.target.closest("[data-play-song]");
+      if (playSongBtn) {
+        const songId = playSongBtn.dataset.playSong;
+        if (songId) {
+          navigateTo({ page: "play", songId });
+        }
+        return;
+      }
+
+      const editSlId = e.target.closest("[data-edit-setlist]")?.dataset.editSetlist;
+      if (editSlId) {
+        const target = setlists.find((item) => item.id === editSlId);
+        if (target) openSetlistModal(target);
+        return;
+      }
+
+      const delSlId = e.target.closest("[data-del-setlist]")?.dataset.delSetlist;
+      if (delSlId) {
+        if (confirm("Delete this setlist?")) {
+          await removeSetlistFromFirebase(delSlId);
+          renderSetlistsView();
+          showToast("Setlist deleted");
+        }
+      }
+    });
+
+    // =========================================================================
+    // 9. HELPERS
     // =========================================================================
     function escapeHtml(str) {
       return String(str).replace(/[&<>"']/g, (m) => ({
@@ -1230,6 +1910,7 @@
     }
 
     renderHome();
+    renderSetlistsView();
   </script>
 </body>
 </html>
