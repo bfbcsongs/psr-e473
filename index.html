@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PSR-E473 Set Up</title>
+  <title>PSR E473 bypaulm</title>
   <style>
     :root {
       --bg: #070c18;
@@ -15,7 +15,8 @@
       --primary-hover: #1d4ed8;
       --accent: #38bdf8;
       --purple: #a855f7;
-      --green: #22c55e;
+      --amber: #f59e0b;
+      --chord-green: #4ade80;
       --text: #f8fafc;
       --text-muted: #94a3b8;
       --danger: #ef4444;
@@ -31,18 +32,20 @@
     body {
       background-color: var(--bg);
       color: var(--text);
-      min-height: 100vh;
-      padding-bottom: 40px;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
     }
 
     /* Header */
     header {
       background: linear-gradient(180deg, #0b1324 0%, #09101f 100%);
       border-bottom: 1px solid var(--border);
-      padding: 12px 16px;
+      padding: 10px 14px;
       position: sticky;
       top: 0;
       z-index: 20;
+      flex-shrink: 0;
     }
 
     .header-inner {
@@ -57,7 +60,7 @@
     .header-left {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       min-width: 0;
     }
 
@@ -65,10 +68,10 @@
       background: var(--surface-2);
       color: var(--text);
       border: 1px solid var(--border);
-      padding: 7px 11px;
+      padding: 6px 10px;
       border-radius: 8px;
       font-weight: 700;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -88,9 +91,9 @@
     }
 
     .brand-tag {
-      font-size: 0.62rem;
+      font-size: 0.6rem;
       font-weight: 800;
-      letter-spacing: 1.2px;
+      letter-spacing: 1.1px;
       color: var(--accent);
       text-transform: uppercase;
       white-space: nowrap;
@@ -99,7 +102,7 @@
     }
 
     .brand h1 {
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 800;
       letter-spacing: 0.2px;
       white-space: nowrap;
@@ -111,10 +114,10 @@
       background-color: var(--primary);
       color: #fff;
       border: none;
-      padding: 8px 13px;
+      padding: 7px 12px;
       border-radius: 8px;
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       cursor: pointer;
       flex-shrink: 0;
     }
@@ -125,8 +128,8 @@
 
     .sync-status {
       max-width: 720px;
-      margin: 6px auto 0;
-      font-size: 0.68rem;
+      margin: 4px auto 0;
+      font-size: 0.66rem;
       color: var(--text-muted);
       display: flex;
       justify-content: space-between;
@@ -139,39 +142,42 @@
       height: 6px;
       border-radius: 50%;
       margin-right: 5px;
-      background: var(--green);
+      background: var(--chord-green);
     }
 
     .status-dot.local {
-      background: #f59e0b;
+      background: var(--amber);
     }
 
     /* Views */
     .view {
       display: none;
+      width: 100%;
       max-width: 720px;
-      margin: 14px auto 0;
-      padding: 0 16px;
+      margin: 0 auto;
+      padding: 12px 14px 16px;
+      flex: 1;
     }
 
     .view.active {
-      display: block;
+      display: flex;
+      flex-direction: column;
     }
 
     /* Search & Auto-Suggest */
     .search-wrapper {
       position: relative;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .search-input {
       width: 100%;
-      padding: 11px 14px;
+      padding: 10px 13px;
       background-color: var(--surface);
       border: 1px solid var(--border);
       border-radius: 10px;
       color: var(--text);
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       outline: none;
     }
 
@@ -199,14 +205,14 @@
     }
 
     .suggestion-item {
-      padding: 10px 14px;
+      padding: 9px 13px;
       cursor: pointer;
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 8px;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
     }
 
     .suggestion-item:last-child {
@@ -218,7 +224,7 @@
     }
 
     .suggestion-meta {
-      font-size: 0.74rem;
+      font-size: 0.72rem;
       color: var(--text-muted);
       text-align: right;
     }
@@ -234,7 +240,7 @@
       background-color: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 14px;
+      padding: 13px;
     }
 
     .song-header {
@@ -242,11 +248,11 @@
       justify-content: space-between;
       align-items: flex-start;
       gap: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 9px;
     }
 
     .song-title {
-      font-size: 1.08rem;
+      font-size: 1.05rem;
       font-weight: 800;
       line-height: 1.25;
       color: #fff;
@@ -266,7 +272,7 @@
       border: 1px solid var(--border);
       padding: 5px 9px;
       border-radius: 7px;
-      font-size: 0.76rem;
+      font-size: 0.75rem;
       font-weight: 600;
       cursor: pointer;
     }
@@ -276,13 +282,13 @@
     }
 
     .btn-play {
-      background: rgba(34, 197, 94, 0.15);
-      color: #4ade80;
-      border-color: rgba(34, 197, 94, 0.4);
+      background: rgba(74, 222, 128, 0.14);
+      color: var(--chord-green);
+      border-color: rgba(74, 222, 128, 0.4);
     }
 
     .btn-play:hover {
-      background: rgba(34, 197, 94, 0.25);
+      background: rgba(74, 222, 128, 0.24);
     }
 
     .btn-delete:hover {
@@ -290,59 +296,63 @@
       border-color: var(--danger);
     }
 
-    /* Compact Voice & Style Badges */
+    /* Compact Voice, Style & Tempo Badges */
     .psr-badges {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 10px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 9px;
     }
 
     .badge {
       background-color: var(--bg);
-      padding: 6px 10px;
-      border-radius: 8px;
-      border-left: 3px solid var(--accent);
+      padding: 5px 8px;
+      border-radius: 7px;
+      border-left: 2px solid var(--accent);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 6px;
+      gap: 4px;
+      min-width: 0;
     }
 
     .badge.style-badge {
       border-left-color: var(--purple);
     }
 
+    .badge.tempo-badge {
+      border-left-color: var(--amber);
+    }
+
     .badge-label {
-      font-size: 0.65rem;
+      font-size: 0.6rem;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.8px;
+      letter-spacing: 0.6px;
       color: var(--text-muted);
+      flex-shrink: 0;
     }
 
     .badge-val {
-      font-size: 0.88rem;
+      font-size: 0.82rem;
       font-weight: 700;
       color: #fff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    /* Shared Compact Meta & Transpose Bar (Used identically in Edit & Play) */
-    .wysiwyg-top-bar {
+    /* Top Table (Editor & Play) */
+    .top-table {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 8px 10px;
-      margin-bottom: 10px;
+      padding: 7px 8px;
+      margin-bottom: 8px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-    }
-
-    .wysiwyg-title-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      gap: 6px;
+      flex-shrink: 0;
     }
 
     .title-inline-input {
@@ -350,9 +360,9 @@
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: 7px;
-      padding: 6px 10px;
+      padding: 6px 9px;
       color: #fff;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 700;
       outline: none;
     }
@@ -361,10 +371,16 @@
       border-color: var(--accent);
     }
 
-    .wysiwyg-controls-row {
+    .editor-meta-row {
       display: grid;
-      grid-template-columns: 1fr 1fr auto;
-      gap: 6px;
+      grid-template-columns: 1fr 1fr 0.85fr auto;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .play-top-only-transpose {
+      display: flex;
+      justify-content: flex-end;
       align-items: center;
     }
 
@@ -372,10 +388,10 @@
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: 7px;
-      padding: 4px 8px;
+      padding: 4px 7px;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       min-width: 0;
     }
 
@@ -387,11 +403,15 @@
       border-left: 2px solid var(--purple);
     }
 
+    .mini-field.tempo-field {
+      border-left: 2px solid var(--amber);
+    }
+
     .mini-label {
-      font-size: 0.62rem;
+      font-size: 0.58rem;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.7px;
+      letter-spacing: 0.5px;
       color: var(--text-muted);
       flex-shrink: 0;
     }
@@ -402,18 +422,9 @@
       background: transparent;
       border: none;
       color: #fff;
-      font-size: 0.84rem;
+      font-size: 0.8rem;
       font-weight: 700;
       outline: none;
-    }
-
-    .mini-val {
-      font-size: 0.84rem;
-      font-weight: 700;
-      color: #fff;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
     .transpose-compact {
@@ -449,56 +460,65 @@
     }
 
     .transpose-indicator {
-      min-width: 28px;
+      min-width: 26px;
       text-align: center;
       font-weight: 800;
-      color: var(--accent);
+      color: var(--chord-green);
       font-size: 0.78rem;
     }
 
-    /* WYSIWYG Chord Sheet (Identical geometry & font in Preview, Edit & Play) */
+    /* 2nd Table: Maximized Green Chord Sheet */
     .chord-sheet {
       width: 100%;
       background-color: #060a14;
       border: 1px solid #1b2842;
       border-radius: 10px;
-      padding: 12px 14px;
+      padding: 11px 12px;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       font-size: 0.9rem;
-      line-height: 1.55;
+      line-height: 1.5;
       letter-spacing: 0.2px;
-      color: #e2e8f0;
+      color: var(--chord-green);
       white-space: pre-wrap;
       word-wrap: break-word;
     }
 
-    .chord-sheet.interactive {
-      min-height: 62vh;
+    .chord-sheet.maximized {
+      flex: 1;
+      height: 100%;
+      min-height: 0;
     }
 
     textarea.chord-sheet {
-      resize: vertical;
+      resize: none;
       outline: none;
       display: block;
     }
 
     textarea.chord-sheet:focus {
-      border-color: var(--accent);
+      border-color: var(--chord-green);
+    }
+
+    #songForm {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
     }
 
     .editor-footer {
       display: flex;
       justify-content: flex-end;
-      margin-top: 12px;
+      margin-top: 8px;
+      flex-shrink: 0;
     }
 
     .btn-save {
       background: var(--primary);
       color: #fff;
       border: none;
-      padding: 9px 20px;
+      padding: 8px 18px;
       border-radius: 8px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
       cursor: pointer;
     }
@@ -524,12 +544,12 @@
 
     .toast {
       position: fixed;
-      bottom: 18px;
+      bottom: 16px;
       left: 50%;
       transform: translateX(-50%);
       background: var(--surface-2);
       color: #fff;
-      border: 1px solid var(--accent);
+      border: 1px solid var(--chord-green);
       padding: 8px 16px;
       border-radius: 999px;
       font-size: 0.82rem;
@@ -551,17 +571,16 @@
   <header>
     <div class="header-inner">
       <div class="header-left">
-        <!-- Hidden on Home, always present on Editor & Play pages -->
         <button type="button" class="btn-back" id="backBtn" style="display: none;">← Back</button>
         <div class="brand">
           <span class="brand-tag" id="headerSub">YAMAHA KEYBOARD MANAGER</span>
-          <h1 id="headerTitle">PSR-E473 Set Up</h1>
+          <h1 id="headerTitle">PSR E473 bypaulm</h1>
         </div>
       </div>
       <button type="button" class="btn-add" id="addSongBtn">+ Add Song</button>
     </div>
     <div class="sync-status">
-      <span id="syncIndicator"><span class="status-dot local" id="statusDot"></span>Local Storage Mode</span>
+      <span id="syncIndicator"><span class="status-dot local" id="statusDot"></span>Firebase Ready (Local Fallback)</span>
       <span id="songCount">0 songs</span>
     </div>
   </header>
@@ -573,7 +592,7 @@
         type="text"
         id="searchInput"
         class="search-input"
-        placeholder="Search saved songs, voices, styles, or chords..."
+        placeholder="Search saved songs, voices, styles, tempo, or chords..."
         autocomplete="off"
       />
       <div class="suggestions-box" id="suggestionsBox"></div>
@@ -582,23 +601,21 @@
     <div class="song-list" id="songList"></div>
   </section>
 
-  <!-- WYSIWYG ADD / EDIT SONG PAGE -->
+  <!-- ADD / EDIT SONG PAGE -->
   <section id="editorView" class="view">
     <form id="songForm">
       <input type="hidden" id="songId" />
 
-      <!-- Same top table layout as Play Mode -->
-      <div class="wysiwyg-top-bar">
-        <div class="wysiwyg-title-row">
-          <input
-            type="text"
-            id="titleInput"
-            class="title-inline-input"
-            placeholder="Song Title (e.g., Mahal na Mahal kita Panginoon)"
-            required
-          />
-        </div>
-        <div class="wysiwyg-controls-row">
+      <!-- 1st Table: Title, Voice, Style, Tempo, Transpose -->
+      <div class="top-table">
+        <input
+          type="text"
+          id="titleInput"
+          class="title-inline-input"
+          placeholder="Song Title (e.g., Mahal na Mahal kita Panginoon)"
+          required
+        />
+        <div class="editor-meta-row">
           <div class="mini-field voice-field">
             <span class="mini-label">Voice</span>
             <input type="text" id="voiceInput" class="mini-input" placeholder="43" required />
@@ -607,8 +624,11 @@
             <span class="mini-label">Style</span>
             <input type="text" id="styleInput" class="mini-input" placeholder="133" required />
           </div>
+          <div class="mini-field tempo-field">
+            <span class="mini-label">Tempo</span>
+            <input type="text" id="tempoInput" class="mini-input" placeholder="120" />
+          </div>
           <div class="transpose-compact" title="Transpose">
-            <span class="mini-label">Tr</span>
             <button type="button" class="btn-trans" id="editorTransDown">-</button>
             <span class="transpose-indicator" id="editorTransVal">0</span>
             <button type="button" class="btn-trans" id="editorTransUp">+</button>
@@ -616,10 +636,10 @@
         </div>
       </div>
 
-      <!-- WYSIWYG Chords Sheet (Exact same size, font, padding & width as Play Mode) -->
+      <!-- 2nd Table: Maximized Green Chords Sheet -->
       <textarea
         id="chordsInput"
-        class="chord-sheet interactive"
+        class="chord-sheet maximized"
         placeholder="intro&#10;G C D Em F F#m&#10;G C G C G C"
       ></textarea>
 
@@ -629,28 +649,20 @@
     </form>
   </section>
 
-  <!-- FULL-SCREEN PLAY CHORDS PAGE (WYSIWYG match with Edit Mode) -->
+  <!-- PLAY MODE PAGE -->
   <section id="playView" class="view">
-    <div class="wysiwyg-top-bar">
-      <div class="wysiwyg-controls-row">
-        <div class="mini-field voice-field">
-          <span class="mini-label">Voice</span>
-          <span class="mini-val" id="playVoice">-</span>
-        </div>
-        <div class="mini-field style-field">
-          <span class="mini-label">Style</span>
-          <span class="mini-val" id="playStyle">-</span>
-        </div>
-        <div class="transpose-compact" title="Transpose">
-          <span class="mini-label">Tr</span>
-          <button type="button" class="btn-trans" id="playTransDown">-</button>
-          <span class="transpose-indicator" id="playTransVal">0</span>
-          <button type="button" class="btn-trans" id="playTransUp">+</button>
-        </div>
+    <!-- 1st Table: Only Transpose + and - on Play Mode -->
+    <div class="top-table play-top-only-transpose">
+      <div class="transpose-compact" title="Transpose">
+        <span class="mini-label">Transpose</span>
+        <button type="button" class="btn-trans" id="playTransDown">-</button>
+        <span class="transpose-indicator" id="playTransVal">0</span>
+        <button type="button" class="btn-trans" id="playTransUp">+</button>
       </div>
     </div>
 
-    <div class="chord-sheet interactive" id="playChordsScreen"></div>
+    <!-- 2nd Table: Maximized Green Chords Sheet -->
+    <div class="chord-sheet maximized" id="playChordsScreen"></div>
   </section>
 
   <div class="toast" id="toast"></div>
@@ -664,11 +676,12 @@
       doc,
       setDoc,
       deleteDoc,
-      onSnapshot
+      onSnapshot,
+      enableIndexedDbPersistence
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     // =========================================================================
-    // 1. FIREBASE CONFIG (Replace with your Firebase project keys)
+    // 1. FIREBASE CONFIG (Paste your Firebase Web App config keys)
     // =========================================================================
     const firebaseConfig = {
       apiKey: "YOUR_API_KEY",
@@ -691,21 +704,23 @@
     if (hasFirebaseConfig) {
       const app = initializeApp(firebaseConfig);
       db = getFirestore(app);
+      enableIndexedDbPersistence(db).catch(() => {});
       songsCol = collection(db, "psr_e473_songs");
       statusDot.classList.remove("local");
-      syncIndicator.innerHTML = `<span class="status-dot"></span>Firebase Connected`;
+      syncIndicator.innerHTML = `<span class="status-dot"></span>Firebase Firestore Live`;
     }
 
     // =========================================================================
     // 2. DATA STORE (Firebase + LocalStorage Fallback)
     // =========================================================================
-    const LOCAL_KEY = "psr_e473_songs_v2";
+    const LOCAL_KEY = "psr_e473_bypaulm_songs_v1";
     const defaultSongs = [
       {
         id: "sample-1",
         title: "Mahal na Mahal kita Panginoon",
         voice: "43",
         style: "133",
+        tempo: "72",
         chords: "intro\nG C D Em F F#m\nG C G C G C",
         updatedAt: Date.now()
       }
@@ -742,14 +757,13 @@
     }
 
     async function persistSongToFirebase(song) {
-      saveLocalSongs(
-        songs.some((s) => s.id === song.id)
-          ? songs.map((s) => (s.id === song.id ? song : s))
-          : [song, ...songs]
-      );
+      const nextList = songs.some((s) => s.id === song.id)
+        ? songs.map((s) => (s.id === song.id ? song : s))
+        : [song, ...songs];
+      songs = nextList;
+      saveLocalSongs(nextList);
 
       if (!hasFirebaseConfig || !songsCol) {
-        songs = loadLocalSongs();
         return;
       }
 
@@ -757,6 +771,7 @@
         title: song.title,
         voice: song.voice,
         style: song.style,
+        tempo: song.tempo,
         chords: song.chords,
         updatedAt: Date.now()
       });
@@ -764,8 +779,8 @@
 
     async function removeSongFromFirebase(id) {
       const updated = songs.filter((s) => s.id !== id);
-      saveLocalSongs(updated);
       songs = updated;
+      saveLocalSongs(updated);
 
       if (hasFirebaseConfig && songsCol) {
         await deleteDoc(doc(db, "psr_e473_songs", id));
@@ -834,13 +849,13 @@
         backBtn.style.display = "none";
         addSongBtn.style.display = "inline-flex";
         headerSub.textContent = "YAMAHA KEYBOARD MANAGER";
-        headerTitle.textContent = "PSR-E473 Set Up";
+        headerTitle.textContent = "PSR E473 bypaulm";
         renderHome(searchInput.value);
       } else if (state.page === "editor") {
         editorView.classList.add("active");
         backBtn.style.display = "inline-flex";
         addSongBtn.style.display = "none";
-        headerSub.textContent = "PSR-E473 SET UP";
+        headerSub.textContent = "PSR E473 bypaulm";
         headerTitle.textContent = state.songId ? "Edit Song" : "Add Song";
         loadEditor(state.songId || null);
       } else if (state.page === "play") {
@@ -905,6 +920,7 @@
           (s.title || "").toLowerCase().includes(q) ||
           String(s.voice || "").toLowerCase().includes(q) ||
           String(s.style || "").toLowerCase().includes(q) ||
+          String(s.tempo || "").toLowerCase().includes(q) ||
           (s.chords || "").toLowerCase().includes(q)
       );
 
@@ -912,7 +928,7 @@
         songListEl.innerHTML = `
           <div class="empty-state">
             <p>No songs found.</p>
-            <p style="font-size:0.8rem;margin-top:4px;">Tap <strong>+ Add Song</strong> to create a PSR-E473 setup.</p>
+            <p style="font-size:0.8rem;margin-top:4px;">Tap <strong>+ Add Song</strong> to create a PSR E473 bypaulm setup.</p>
           </div>
         `;
         return;
@@ -938,6 +954,10 @@
               <div class="badge style-badge">
                 <span class="badge-label">Style</span>
                 <span class="badge-val">${escapeHtml(String(song.style))}</span>
+              </div>
+              <div class="badge tempo-badge">
+                <span class="badge-label">Tempo</span>
+                <span class="badge-val">${escapeHtml(String(song.tempo || "-"))}</span>
               </div>
             </div>
             ${song.chords ? `<div class="chord-sheet">${escapeHtml(song.chords)}</div>` : ""}
@@ -980,7 +1000,7 @@
 
       const wordSet = new Set();
       songs.forEach((s) => {
-        [s.title, String(s.voice), String(s.style)].forEach((field) => {
+        [s.title, String(s.voice), String(s.style), String(s.tempo || "")].forEach((field) => {
           (field || "").split(/\s+/).forEach((word) => {
             const w = word.trim();
             if (w && w.toLowerCase().includes(clean)) {
@@ -994,7 +1014,8 @@
         (s) =>
           (s.title || "").toLowerCase().includes(clean) ||
           String(s.voice || "").toLowerCase().includes(clean) ||
-          String(s.style || "").toLowerCase().includes(clean)
+          String(s.style || "").toLowerCase().includes(clean) ||
+          String(s.tempo || "").toLowerCase().includes(clean)
       );
 
       if (titleMatches.length === 0 && wordSet.size === 0) {
@@ -1020,7 +1041,7 @@
           (s) => `
           <div class="suggestion-item" data-suggest="${escapeHtml(s.title)}">
             <strong>${escapeHtml(s.title)}</strong>
-            <span class="suggestion-meta">Voice ${escapeHtml(String(s.voice))} • Style ${escapeHtml(String(s.style))}</span>
+            <span class="suggestion-meta">V:${escapeHtml(String(s.voice))} • S:${escapeHtml(String(s.style))} • T:${escapeHtml(String(s.tempo || "-"))}</span>
           </div>
         `
         )
@@ -1046,13 +1067,14 @@
     });
 
     // =========================================================================
-    // 6. WYSIWYG EDITOR: EDIT & SAVE FULL ENTRY TO FIREBASE
+    // 6. EDITOR: EDIT & SAVE FULL ENTRY (INCLUDING TEMPO) TO FIREBASE
     // =========================================================================
     const songForm = document.getElementById("songForm");
     const songIdInput = document.getElementById("songId");
     const titleInput = document.getElementById("titleInput");
     const voiceInput = document.getElementById("voiceInput");
     const styleInput = document.getElementById("styleInput");
+    const tempoInput = document.getElementById("tempoInput");
     const chordsInput = document.getElementById("chordsInput");
     const saveSongBtn = document.getElementById("saveSongBtn");
     const editorTransVal = document.getElementById("editorTransVal");
@@ -1070,6 +1092,7 @@
           titleInput.value = song.title || "";
           voiceInput.value = song.voice || "";
           styleInput.value = song.style || "";
+          tempoInput.value = song.tempo || "";
           chordsInput.value = song.chords || "";
           return;
         }
@@ -1079,6 +1102,7 @@
       titleInput.value = "";
       voiceInput.value = "";
       styleInput.value = "";
+      tempoInput.value = "";
       chordsInput.value = "";
     }
 
@@ -1103,6 +1127,7 @@
         title: titleInput.value.trim(),
         voice: voiceInput.value.trim(),
         style: styleInput.value.trim(),
+        tempo: tempoInput.value.trim(),
         chords: chordsInput.value,
         updatedAt: Date.now()
       };
@@ -1120,10 +1145,8 @@
     });
 
     // =========================================================================
-    // 7. FULL-SCREEN PLAY VIEW (WYSIWYG MATCH)
+    // 7. PLAY MODE: ONLY TRANSPOSE + AND - ON TOP TABLE + MAXIMIZED CHORDS
     // =========================================================================
-    const playVoiceEl = document.getElementById("playVoice");
-    const playStyleEl = document.getElementById("playStyle");
     const playChordsScreen = document.getElementById("playChordsScreen");
     const playTransVal = document.getElementById("playTransVal");
 
@@ -1140,8 +1163,6 @@
       playSemitones = 0;
       headerSub.textContent = "PLAY MODE";
       headerTitle.textContent = song.title;
-      playVoiceEl.textContent = song.voice;
-      playStyleEl.textContent = song.style;
       renderPlayChords();
     }
 
