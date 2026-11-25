@@ -942,7 +942,7 @@
       <div class="header-left">
         <button type="button" class="btn-back" id="backBtn" style="display: none;">← Back</button>
         <div class="brand">
-          <span class="brand-tag" id="headerSub">Keyboard Presets bypaulm</span>
+          <span class="brand-tag" id="headerSub">Keyboard Presets by<i>paulm</i></span>
           <h1 id="headerTitle">PSR E473</h1>
         </div>
       </div>
@@ -1114,12 +1114,11 @@
     const auth = getAuth(app);
     const rtdb = getDatabase(app);
     const songsRef = ref(rtdb, "psr_e473_songs");
-    const setlistsRef = ref(rtdb, "psr_e473_setlists");
 
     const syncIndicator = document.getElementById("syncIndicator");
 
     // =========================================================================
-    // 2. AUTH + REAL-TIME FIREBASE SYNC (SONGS & SETLISTS) + LOCAL CACHE
+    // 2. AUTH + REAL-TIME FIREBASE SYNC (SONGS) + LOCAL STORAGE (SETLISTS)
     // =========================================================================
     const SONGS_CACHE_KEY = "psr_e473_bypaulm_cache_v1";
     const SETLISTS_CACHE_KEY = "psr_e473_bypaulm_setlists_v1";
@@ -1189,27 +1188,6 @@
           syncIndicator.innerHTML = `<span class="status-dot connecting"></span>Permission Denied — Add RTDB rules`;
         }
       );
-
-      onValue(
-        setlistsRef,
-        (snapshot) => {
-          const val = snapshot.val();
-          const cloudSetlists = [];
-          if (val && typeof val === "object") {
-            Object.entries(val).forEach(([id, data]) => {
-              if (data && typeof data === "object") {
-                cloudSetlists.push({ id, ...data });
-              }
-            });
-          }
-          setlists = sortSetlistsByModified(cloudSetlists);
-          saveCache(SETLISTS_CACHE_KEY, setlists);
-          renderSetlistsView();
-        },
-        (error) => {
-          console.error("Firebase setlists error:", error);
-        }
-      );
     }
 
     onAuthStateChanged(auth, async (user) => {
@@ -1261,20 +1239,14 @@
       saveCache(SONGS_CACHE_KEY, songs);
     }
 
-    async function persistSetlistToFirebase(setlistObj) {
-      if (!auth.currentUser) {
-        await signInAnonymously(auth);
-      }
-
-      const payload = {
+    function persistSetlistToLocalStorage(setlistObj) {
+      const fullSetlist = {
+        id: setlistObj.id,
         name: setlistObj.name,
         slots: setlistObj.slots,
         modifiedAt: Date.now()
       };
 
-      await set(ref(rtdb, `psr_e473_setlists/${setlistObj.id}`), payload);
-
-      const fullSetlist = { id: setlistObj.id, ...payload };
       const nextList = setlists.some((item) => item.id === setlistObj.id)
         ? setlists.map((item) => (item.id === setlistObj.id ? fullSetlist : item))
         : [fullSetlist, ...setlists];
@@ -1283,13 +1255,7 @@
       saveCache(SETLISTS_CACHE_KEY, setlists);
     }
 
-    async function removeSetlistFromFirebase(id) {
-      if (!auth.currentUser) {
-        await signInAnonymously(auth);
-      }
-
-      await remove(ref(rtdb, `psr_e473_setlists/${id}`));
-
+    function removeSetlistFromLocalStorage(id) {
       setlists = setlists.filter((item) => item.id !== id);
       if (expandedSetlistId === id) expandedSetlistId = null;
       saveCache(SETLISTS_CACHE_KEY, setlists);
@@ -1360,8 +1326,8 @@
         homeView.classList.add("active");
         backBtn.style.display = "none";
         homeActions.style.display = "flex";
-        headerSub.textContent = "YAMAHA KEYBOARD MANAGER";
-        headerTitle.textContent = "PSR E473 bypaulm";
+        headerSub.innerHTML = "Keyboard Presets by<i>paulm</i>";
+        headerTitle.textContent = "PSR E473";
         renderHome(searchInput.value);
       } else if (state.page === "setlists") {
         setlistsView.classList.add("active");
@@ -1374,7 +1340,7 @@
         editorView.classList.add("active");
         backBtn.style.display = "inline-flex";
         homeActions.style.display = "none";
-        headerSub.textContent = "PSR E473 BYPAULM";
+        headerSub.innerHTML = "Keyboard Presets by<i>paulm</i>";
         headerTitle.textContent = state.songId ? "Edit Song" : "Add Song";
         loadEditor(state.songId || null);
       } else if (state.page === "play") {
@@ -1880,7 +1846,7 @@
       renderDraftSlots();
     });
 
-    setlistForm.addEventListener("submit", async (e) => {
+    setlistForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const saveBtn = document.getElementById("saveSetlistBtn");
       if (saveBtn.disabled) return;
@@ -1906,7 +1872,7 @@
       };
 
       try {
-        await persistSetlistToFirebase(setlistPayload);
+        persistSetlistToLocalStorage(setlistPayload);
         expandedSetlistId = setlistId;
         closeSetlistModal();
         showToast("Setlist saved");
@@ -1991,11 +1957,23 @@
         .join("");
     }
 
-    setlistsContainer.addEventListener("click", async (e) => {
-      const toggleSlId = e.target.closest("[data-toggle-setlist]")?.dataset.toggleSetlist;
-      if (toggleSlId) {
-        expandedSetlistId = expandedSetlistId === toggleSlId ? null : toggleSlId;
+    setlistsContainer.addEventListener("click", (e) => {
+      const delBtn = e.target.closest("[data-del-setlist]");
+      if (delBtn) {
+        e.stopPropagation();
+        const delSlId = delBtn.dataset.delSetlist;
+        removeSetlistFromLocalStorage(delSlId);
         renderSetlistsView();
+        showToast("Setlist deleted");
+        return;
+      }
+
+      const editBtn = e.target.closest("[data-edit-setlist]");
+      if (editBtn) {
+        e.stopPropagation();
+        const editSlId = editBtn.dataset.editSetlist;
+        const target = setlists.find((item) => item.id === editSlId);
+        if (target) openSetlistModal(target);
         return;
       }
 
@@ -2008,20 +1986,11 @@
         return;
       }
 
-      const editSlId = e.target.closest("[data-edit-setlist]")?.dataset.editSetlist;
-      if (editSlId) {
-        const target = setlists.find((item) => item.id === editSlId);
-        if (target) openSetlistModal(target);
-        return;
-      }
-
-      const delSlId = e.target.closest("[data-del-setlist]")?.dataset.delSetlist;
-      if (delSlId) {
-        if (confirm("Delete this setlist?")) {
-          await removeSetlistFromFirebase(delSlId);
-          renderSetlistsView();
-          showToast("Setlist deleted");
-        }
+      const toggleBtn = e.target.closest("[data-toggle-setlist]");
+      if (toggleBtn) {
+        const toggleSlId = toggleBtn.dataset.toggleSetlist;
+        expandedSetlistId = expandedSetlistId === toggleSlId ? null : toggleSlId;
+        renderSetlistsView();
       }
     });
 
