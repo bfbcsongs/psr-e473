@@ -1614,31 +1614,33 @@
     });
 
     songForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      if (saveSongBtn.disabled) return;
-      saveSongBtn.disabled = true;
+  e.preventDefault();
+  if (saveSongBtn.disabled) return;
+  saveSongBtn.disabled = true;
 
-      const entry = {
-        id: songIdInput.value || `song-${Date.now()}`,
-        title: titleInput.value.trim(),
-        voice: voiceInput.value.trim(),
-        style: styleInput.value.trim(),
-        tempo: tempoInput.value.trim(),
-        chords: chordsInput.value
-      };
+  const entry = {
+    id: songIdInput.value || `song-${Date.now()}`,
+    title: titleInput.value.trim(),
+    voice: voiceInput.value.trim(),
+    style: styleInput.value.trim(),
+    tempo: tempoInput.value.trim(),
+    chords: chordsInput.value
+  };
 
-      try {
-        await persistSongToFirebase(entry);
-        expandedSongId = entry.id;
-        showToast("Saved to Firebase");
-        goBackOneStep();
-      } catch (err) {
-        console.error(err);
-        showToast("Save failed — check Firebase rules");
-      } finally {
-        saveSongBtn.disabled = false;
-      }
-    });
+  try {
+    await persistSongToFirebase(entry);
+    expandedSongId = entry.id;
+    navStack = [{ page: "home" }];
+    history.replaceState({ stackIndex: 0 }, "", "#home");
+    applyRoute({ page: "home" });
+    showToast("Saved to Firebase");
+  } catch (err) {
+    console.error(err);
+    showToast("Save failed — check Firebase rules");
+  } finally {
+    saveSongBtn.disabled = false;
+  }
+});
 
     // =========================================================================
     // 7. PLAY MODE: ONLY TRANSPOSE + AND - ON TOP + GREEN CHORDS
