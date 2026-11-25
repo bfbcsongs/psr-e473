@@ -35,6 +35,7 @@
       min-height: 100dvh;
       display: flex;
       flex-direction: column;
+      overflow-x: hidden;
     }
 
     /* Compact Header */
@@ -257,47 +258,90 @@
       white-space: nowrap;
     }
 
-    /* Home Song Cards */
+    /* Accordion Song List (Alphabetical, Tap to Expand) */
     .song-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 6px;
     }
 
     .song-card {
       background-color: var(--surface);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 12px;
+      overflow: hidden;
     }
 
-    .song-header {
+    .song-card.expanded {
+      border-color: var(--accent);
+    }
+
+    .song-row-trigger {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      padding: 11px 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 8px;
+      gap: 10px;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .song-row-trigger:hover {
+      background-color: var(--surface-hover);
     }
 
     .song-title {
-      font-size: 1rem;
+      font-size: 0.96rem;
       font-weight: 800;
       color: var(--text);
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
-    .song-actions {
-      display: flex;
-      gap: 5px;
+    .chevron {
+      font-size: 0.78rem;
+      color: var(--text-muted);
       flex-shrink: 0;
+      transition: transform 0.15s ease;
+    }
+
+    .song-card.expanded .chevron,
+    .setlist-card.expanded .chevron {
+      transform: rotate(180deg);
+      color: var(--accent);
+    }
+
+    .song-drawer {
+      display: none;
+      padding: 0 12px 12px;
+      border-top: 1px solid var(--border);
+      background-color: #0d1526;
+    }
+
+    .song-card.expanded .song-drawer {
+      display: block;
+    }
+
+    .song-drawer-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+      padding: 9px 0 8px;
     }
 
     .btn-action {
       background: var(--surface-2);
       color: var(--text);
       border: 1px solid var(--border);
-      padding: 4px 8px;
+      padding: 5px 10px;
       border-radius: 6px;
-      font-size: 0.74rem;
+      font-size: 0.75rem;
       font-weight: 700;
       cursor: pointer;
     }
@@ -329,12 +373,13 @@
       background-color: var(--bg);
       border: 1px solid var(--border);
       border-left: 2px solid var(--accent);
-      padding: 4px 8px;
+      padding: 5px 8px;
       border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       font-size: 0.78rem;
+      min-width: 0;
     }
 
     .badge.style-badge {
@@ -498,7 +543,7 @@
       flex-shrink: 0;
     }
 
-    /* 2nd Table: CHORDS ONLY in Green Font */
+    /* Chords Sheet in Green Font */
     .chord-sheet {
       width: 100%;
       background-color: #050912;
@@ -569,32 +614,54 @@
       cursor: not-allowed;
     }
 
-    /* Setlist List View */
+    /* Setlist List View (Tap to Expand, 1 Unified Table) */
     .setlist-stack {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 7px;
     }
 
     .setlist-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 12px;
+      overflow: hidden;
     }
 
-    .setlist-card-top {
+    .setlist-card.expanded {
+      border-color: var(--accent);
+    }
+
+    .setlist-trigger {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      padding: 11px 12px;
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      gap: 8px;
-      margin-bottom: 8px;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .setlist-trigger:hover {
+      background: var(--surface-hover);
+    }
+
+    .setlist-header-info {
+      min-width: 0;
+      flex: 1;
     }
 
     .setlist-name {
-      font-size: 1rem;
+      font-size: 0.96rem;
       font-weight: 800;
       color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .setlist-mod {
@@ -603,56 +670,81 @@
       margin-top: 2px;
     }
 
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 6px;
+    .setlist-drawer {
+      display: none;
+      padding: 0 12px 12px;
+      border-top: 1px solid var(--border);
+      background-color: #0d1526;
     }
 
-    .cat-play-btn {
+    .setlist-card.expanded .setlist-drawer {
+      display: block;
+    }
+
+    .setlist-drawer-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+      padding: 9px 0 8px;
+    }
+
+    /* Single Unified Table for All Categories */
+    .setlist-table {
+      width: 100%;
+      border-collapse: collapse;
       background: var(--bg);
       border: 1px solid var(--border);
-      border-left: 3px solid var(--accent);
       border-radius: 8px;
-      padding: 8px 10px;
-      text-align: left;
+      overflow: hidden;
+      table-layout: fixed;
+    }
+
+    .setlist-table tr {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .setlist-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .setlist-table tr.playable-row {
       cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      color: var(--text);
     }
 
-    .cat-play-btn:hover:not(:disabled) {
+    .setlist-table tr.playable-row:hover {
       background: var(--surface-hover);
-      border-color: var(--accent);
     }
 
-    .cat-play-btn:disabled {
-      opacity: 0.55;
-      cursor: default;
+    .setlist-table td {
+      padding: 9px 10px;
+      vertical-align: middle;
     }
 
-    .cat-label {
-      font-size: 0.64rem;
+    .td-cat {
+      width: 32%;
+      font-size: 0.66rem;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.7px;
+      letter-spacing: 0.6px;
       color: var(--accent);
-    }
-
-    .cat-song-title {
-      font-size: 0.84rem;
-      font-weight: 700;
-      color: var(--text);
+      border-left: 3px solid var(--accent);
+      border-right: 1px solid var(--border);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .cat-empty {
-      font-size: 0.78rem;
+    .td-song {
+      width: 68%;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text);
+      word-break: break-word;
+    }
+
+    .td-song.empty {
       color: var(--text-muted);
+      font-weight: 500;
       font-style: italic;
     }
 
@@ -866,7 +958,7 @@
     </div>
   </header>
 
-  <!-- HOME PAGE -->
+  <!-- HOME PAGE (Alphabetical List, Tap to Expand) -->
   <section id="homeView" class="view active">
     <div class="search-wrapper">
       <input
@@ -882,7 +974,7 @@
     <div class="song-list" id="songList"></div>
   </section>
 
-  <!-- SETLISTS PAGE (Sorted by Modified) -->
+  <!-- SETLISTS PAGE (Sorted by Modified, Tap to Expand) -->
   <section id="setlistsView" class="view">
     <div class="setlist-stack" id="setlistsContainer"></div>
   </section>
@@ -1032,9 +1124,12 @@
     const SONGS_CACHE_KEY = "psr_e473_bypaulm_cache_v1";
     const SETLISTS_CACHE_KEY = "psr_e473_bypaulm_setlists_v1";
 
-    let songs = loadCache(SONGS_CACHE_KEY);
-    let setlists = loadCache(SETLISTS_CACHE_KEY);
+    let songs = sortSongsAlphabetically(loadCache(SONGS_CACHE_KEY));
+    let setlists = sortSetlistsByModified(loadCache(SETLISTS_CACHE_KEY));
     let dbListenersStarted = false;
+
+    let expandedSongId = null;
+    let expandedSetlistId = null;
 
     function loadCache(key) {
       try {
@@ -1048,11 +1143,23 @@
     }
 
     function saveCache(key, list) {
-      localStorage.setItem(key, JSON.stringify(list));
+      try {
+        localStorage.setItem(key, JSON.stringify(list));
+      } catch (e) {
+        console.warn("Local cache save skipped:", e);
+      }
+    }
+
+    function sortSongsAlphabetically(list) {
+      return [...list].sort((a, b) =>
+        (a.title || "").localeCompare(b.title || "", undefined, { sensitivity: "base" })
+      );
     }
 
     function sortSetlistsByModified(list) {
-      return [...list].sort((a, b) => (b.modifiedAt || b.updatedAt || 0) - (a.modifiedAt || a.updatedAt || 0));
+      return [...list].sort(
+        (a, b) => (b.modifiedAt || b.updatedAt || 0) - (a.modifiedAt || a.updatedAt || 0)
+      );
     }
 
     function startDbListeners() {
@@ -1071,8 +1178,7 @@
               }
             });
           }
-          cloudSongs.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
-          songs = cloudSongs;
+          songs = sortSongsAlphabetically(cloudSongs);
           saveCache(SONGS_CACHE_KEY, songs);
           syncIndicator.innerHTML = `<span class="status-dot"></span>Firebase Connected (mobile-presenter)`;
           renderHome(searchInput.value);
@@ -1124,20 +1230,23 @@
         await signInAnonymously(auth);
       }
 
-      const nextList = songs.some((s) => s.id === song.id)
-        ? songs.map((s) => (s.id === song.id ? song : s))
-        : [song, ...songs];
-      songs = nextList;
-      saveCache(SONGS_CACHE_KEY, nextList);
-
-      await set(ref(rtdb, `psr_e473_songs/${song.id}`), {
+      const payload = {
         title: song.title,
         voice: song.voice,
         style: song.style,
         tempo: song.tempo,
         chords: song.chords,
         updatedAt: Date.now()
-      });
+      };
+
+      await set(ref(rtdb, `psr_e473_songs/${song.id}`), payload);
+
+      const fullSong = { id: song.id, ...payload };
+      const nextList = songs.some((s) => s.id === song.id)
+        ? songs.map((s) => (s.id === song.id ? fullSong : s))
+        : [...songs, fullSong];
+      songs = sortSongsAlphabetically(nextList);
+      saveCache(SONGS_CACHE_KEY, songs);
     }
 
     async function removeSongFromFirebase(id) {
@@ -1145,11 +1254,11 @@
         await signInAnonymously(auth);
       }
 
-      const updated = songs.filter((s) => s.id !== id);
-      songs = updated;
-      saveCache(SONGS_CACHE_KEY, updated);
-
       await remove(ref(rtdb, `psr_e473_songs/${id}`));
+
+      songs = songs.filter((s) => s.id !== id);
+      if (expandedSongId === id) expandedSongId = null;
+      saveCache(SONGS_CACHE_KEY, songs);
     }
 
     async function persistSetlistToFirebase(setlistObj) {
@@ -1157,19 +1266,21 @@
         await signInAnonymously(auth);
       }
 
-      const stamped = {
-        ...setlistObj,
+      const payload = {
+        name: setlistObj.name,
+        slots: setlistObj.slots,
         modifiedAt: Date.now()
       };
 
-      const nextList = setlists.some((item) => item.id === stamped.id)
-        ? setlists.map((item) => (item.id === stamped.id ? stamped : item))
-        : [stamped, ...setlists];
+      await set(ref(rtdb, `psr_e473_setlists/${setlistObj.id}`), payload);
+
+      const fullSetlist = { id: setlistObj.id, ...payload };
+      const nextList = setlists.some((item) => item.id === setlistObj.id)
+        ? setlists.map((item) => (item.id === setlistObj.id ? fullSetlist : item))
+        : [fullSetlist, ...setlists];
 
       setlists = sortSetlistsByModified(nextList);
       saveCache(SETLISTS_CACHE_KEY, setlists);
-
-      await set(ref(rtdb, `psr_e473_setlists/${stamped.id}`), stamped);
     }
 
     async function removeSetlistFromFirebase(id) {
@@ -1177,11 +1288,11 @@
         await signInAnonymously(auth);
       }
 
-      const updated = setlists.filter((item) => item.id !== id);
-      setlists = updated;
-      saveCache(SETLISTS_CACHE_KEY, updated);
-
       await remove(ref(rtdb, `psr_e473_setlists/${id}`));
+
+      setlists = setlists.filter((item) => item.id !== id);
+      if (expandedSetlistId === id) expandedSetlistId = null;
+      saveCache(SETLISTS_CACHE_KEY, setlists);
     }
 
     // =========================================================================
@@ -1316,7 +1427,7 @@
     }
 
     // =========================================================================
-    // 5. HOME: NEAREST-MATCH AUTO-SUGGEST & SONG LIST
+    // 5. HOME: ALPHABETICAL LIST + TAP TO SHOW CONTENT + AUTO-SUGGEST
     // =========================================================================
     const songListEl = document.getElementById("songList");
     const searchInput = document.getElementById("searchInput");
@@ -1324,10 +1435,11 @@
     const songCountEl = document.getElementById("songCount");
 
     function renderHome(filterText = "") {
-      songCountEl.textContent = `${songs.length} ${songs.length === 1 ? "song" : "songs"}`;
+      const sortedSongs = sortSongsAlphabetically(songs);
+      songCountEl.textContent = `${sortedSongs.length} ${sortedSongs.length === 1 ? "song" : "songs"}`;
       const q = filterText.trim().toLowerCase();
 
-      const filtered = songs.filter(
+      const filtered = sortedSongs.filter(
         (s) =>
           (s.title || "").toLowerCase().includes(q) ||
           String(s.voice || "").toLowerCase().includes(q) ||
@@ -1347,44 +1459,52 @@
       }
 
       songListEl.innerHTML = filtered
-        .map(
-          (song) => `
-          <div class="song-card">
-            <div class="song-header">
-              <div class="song-title">${escapeHtml(song.title)}</div>
-              <div class="song-actions">
-                <button type="button" class="btn-action btn-play" data-play="${song.id}">▶ Play</button>
-                <button type="button" class="btn-action" data-edit="${song.id}">Edit</button>
-                <button type="button" class="btn-action btn-delete" data-delete="${song.id}">Delete</button>
+        .map((song) => {
+          const isExpanded = expandedSongId === song.id;
+          return `
+            <div class="song-card ${isExpanded ? "expanded" : ""}">
+              <button type="button" class="song-row-trigger" data-toggle-song="${song.id}">
+                <span class="song-title">${escapeHtml(song.title)}</span>
+                <span class="chevron">▼</span>
+              </button>
+              <div class="song-drawer">
+                <div class="song-drawer-actions">
+                  <button type="button" class="btn-action btn-play" data-play="${song.id}">▶ Play</button>
+                  <button type="button" class="btn-action" data-edit="${song.id}">Edit</button>
+                  <button type="button" class="btn-action btn-delete" data-delete="${song.id}">Delete</button>
+                </div>
+                <div class="psr-badges">
+                  <div class="badge">
+                    <span class="badge-label">Voice</span>
+                    <span class="badge-val">${escapeHtml(String(song.voice))}</span>
+                  </div>
+                  <div class="badge style-badge">
+                    <span class="badge-label">Style</span>
+                    <span class="badge-val">${escapeHtml(String(song.style))}</span>
+                  </div>
+                  <div class="badge tempo-badge">
+                    <span class="badge-label">Tempo</span>
+                    <span class="badge-val">${escapeHtml(String(song.tempo || "-"))}</span>
+                  </div>
+                </div>
+                ${song.chords ? `<div class="chord-sheet">${formatChordsHtml(song.chords)}</div>` : ""}
               </div>
             </div>
-            <div class="psr-badges">
-              <div class="badge">
-                <span class="badge-label">Voice</span>
-                <span class="badge-val">${escapeHtml(String(song.voice))}</span>
-              </div>
-              <div class="badge style-badge">
-                <span class="badge-label">Style</span>
-                <span class="badge-val">${escapeHtml(String(song.style))}</span>
-              </div>
-              <div class="badge tempo-badge">
-                <span class="badge-label">Tempo</span>
-                <span class="badge-val">${escapeHtml(String(song.tempo || "-"))}</span>
-              </div>
-            </div>
-            ${song.chords ? `<div class="chord-sheet">${formatChordsHtml(song.chords)}</div>` : ""}
-          </div>
-        `
-        )
+          `;
+        })
         .join("");
     }
 
     songListEl.addEventListener("click", async (e) => {
+      const toggleId = e.target.closest("[data-toggle-song]")?.dataset.toggleSong;
       const playId = e.target.closest("[data-play]")?.dataset.play;
       const editId = e.target.closest("[data-edit]")?.dataset.edit;
       const deleteId = e.target.closest("[data-delete]")?.dataset.delete;
 
-      if (playId) {
+      if (toggleId) {
+        expandedSongId = expandedSongId === toggleId ? null : toggleId;
+        renderHome(searchInput.value);
+      } else if (playId) {
         navigateTo({ page: "play", songId: playId });
       } else if (editId) {
         navigateTo({ page: "editor", songId: editId });
@@ -1448,7 +1568,7 @@
       suggestionsBox.innerHTML = nearestSongs
         .map(
           ({ song }) => `
-          <div class="suggestion-item" data-suggest="${escapeHtml(song.title)}">
+          <div class="suggestion-item" data-suggest="${escapeHtml(song.title)}" data-suggest-id="${song.id}">
             <span>${highlightNearest(song.title, clean)}</span>
             <span class="suggestion-meta">V:${escapeHtml(String(song.voice))} • S:${escapeHtml(String(song.style))} • T:${escapeHtml(String(song.tempo || "-"))}</span>
           </div>
@@ -1463,6 +1583,7 @@
       const item = e.target.closest("[data-suggest]");
       if (!item) return;
       const picked = item.dataset.suggest;
+      expandedSongId = item.dataset.suggestId || null;
       searchInput.value = picked;
       suggestionsBox.classList.remove("active");
       renderHome(picked);
@@ -1528,6 +1649,7 @@
 
     songForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      if (saveSongBtn.disabled) return;
       saveSongBtn.disabled = true;
 
       const entry = {
@@ -1536,12 +1658,12 @@
         voice: voiceInput.value.trim(),
         style: styleInput.value.trim(),
         tempo: tempoInput.value.trim(),
-        chords: chordsInput.value,
-        updatedAt: Date.now()
+        chords: chordsInput.value
       };
 
       try {
         await persistSongToFirebase(entry);
+        expandedSongId = entry.id;
         showToast("Saved to Firebase");
         goBackOneStep();
       } catch (err) {
@@ -1592,7 +1714,7 @@
     });
 
     // =========================================================================
-    // 8. SETLISTER (+SETLIST MODAL, SORTED BY MODIFIED, PLAY CATEGORY)
+    // 8. SETLISTER (+SETLIST MODAL, 1 UNIFIED TABLE, TAP TO EXPAND)
     // =========================================================================
     const DEFAULT_CATEGORIES = [
       "Opening",
@@ -1692,14 +1814,16 @@
 
     function renderPickerList(filterText) {
       const q = filterText.trim().toLowerCase();
-      const matches = songs.filter((s) => (s.title || "").toLowerCase().includes(q));
+      const sortedMatches = sortSongsAlphabetically(songs).filter((s) =>
+        (s.title || "").toLowerCase().includes(q)
+      );
 
-      if (matches.length === 0) {
+      if (sortedMatches.length === 0) {
         pickerList.innerHTML = `<div style="font-size:0.78rem;color:var(--text-muted);padding:4px;">No saved songs match.</div>`;
         return;
       }
 
-      pickerList.innerHTML = matches
+      pickerList.innerHTML = sortedMatches
         .map(
           (s) => `
           <button type="button" class="picker-item" data-choose-song="${s.id}">
@@ -1758,6 +1882,9 @@
 
     setlistForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+      const saveBtn = document.getElementById("saveSetlistBtn");
+      if (saveBtn.disabled) return;
+
       const name = setlistNameInput.value.trim();
       if (!name) {
         setlistNameInput.focus();
@@ -1765,22 +1892,22 @@
         return;
       }
 
-      const saveBtn = document.getElementById("saveSetlistBtn");
       saveBtn.disabled = true;
 
+      const setlistId = editingSetlistId.value || `setlist-${Date.now()}`;
       const setlistPayload = {
-        id: editingSetlistId.value || `setlist-${Date.now()}`,
+        id: setlistId,
         name,
         slots: draftSlots.map((slot) => ({
           category: slot.category,
           songId: slot.songId || "",
           songTitle: slot.songTitle || ""
-        })),
-        modifiedAt: Date.now()
+        }))
       };
 
       try {
         await persistSetlistToFirebase(setlistPayload);
+        expandedSetlistId = setlistId;
         closeSetlistModal();
         showToast("Setlist saved");
         if (navStack[navStack.length - 1]?.page !== "setlists") {
@@ -1789,7 +1916,7 @@
           renderSetlistsView();
         }
       } catch (err) {
-        console.error(err);
+        console.error("Setlist save error:", err);
         showToast("Failed to save setlist");
       } finally {
         saveBtn.disabled = false;
@@ -1821,39 +1948,43 @@
 
       setlistsContainer.innerHTML = sorted
         .map((sl) => {
+          const isExpanded = expandedSetlistId === sl.id;
           const slots = buildDefaultSlots(sl.slots);
-          const buttonsHtml = slots
+          const rowsHtml = slots
             .map((slot) => {
               const matchedSong = songs.find((s) => s.id === slot.songId);
               const targetId = matchedSong ? matchedSong.id : "";
               const labelTitle = matchedSong ? matchedSong.title : (slot.songTitle || "Empty");
               return `
-                <button
-                  type="button"
-                  class="cat-play-btn"
-                  data-play-song="${escapeHtml(targetId)}"
-                  ${targetId ? "" : "disabled"}
+                <tr
+                  class="${targetId ? "playable-row" : ""}"
+                  ${targetId ? `data-play-song="${escapeHtml(targetId)}"` : ""}
                 >
-                  <span class="cat-label">${escapeHtml(slot.category)}</span>
-                  <span class="${targetId ? "cat-song-title" : "cat-empty"}">${escapeHtml(labelTitle)}</span>
-                </button>
+                  <td class="td-cat">${escapeHtml(slot.category)}</td>
+                  <td class="td-song ${targetId ? "" : "empty"}">${escapeHtml(labelTitle)}</td>
+                </tr>
               `;
             })
             .join("");
 
           return `
-            <div class="setlist-card">
-              <div class="setlist-card-top">
-                <div>
+            <div class="setlist-card ${isExpanded ? "expanded" : ""}">
+              <button type="button" class="setlist-trigger" data-toggle-setlist="${sl.id}">
+                <div class="setlist-header-info">
                   <div class="setlist-name">${escapeHtml(sl.name)}</div>
                   <div class="setlist-mod">Modified: ${escapeHtml(formatModifiedTime(sl.modifiedAt || sl.updatedAt))}</div>
                 </div>
-                <div class="song-actions">
+                <span class="chevron">▼</span>
+              </button>
+              <div class="setlist-drawer">
+                <div class="setlist-drawer-actions">
                   <button type="button" class="btn-action" data-edit-setlist="${sl.id}">Edit</button>
                   <button type="button" class="btn-action btn-delete" data-del-setlist="${sl.id}">Delete</button>
                 </div>
+                <table class="setlist-table">
+                  <tbody>${rowsHtml}</tbody>
+                </table>
               </div>
-              <div class="category-grid">${buttonsHtml}</div>
             </div>
           `;
         })
@@ -1861,9 +1992,16 @@
     }
 
     setlistsContainer.addEventListener("click", async (e) => {
-      const playSongBtn = e.target.closest("[data-play-song]");
-      if (playSongBtn) {
-        const songId = playSongBtn.dataset.playSong;
+      const toggleSlId = e.target.closest("[data-toggle-setlist]")?.dataset.toggleSetlist;
+      if (toggleSlId) {
+        expandedSetlistId = expandedSetlistId === toggleSlId ? null : toggleSlId;
+        renderSetlistsView();
+        return;
+      }
+
+      const playSongRow = e.target.closest("[data-play-song]");
+      if (playSongRow) {
+        const songId = playSongRow.dataset.playSong;
         if (songId) {
           navigateTo({ page: "play", songId });
         }
