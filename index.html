@@ -2,7 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#070c18" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="PSR E473" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="icon" href="./icon-192.png" type="image/png" />
+  <link rel="apple-touch-icon" href="./icon-192.png" />
   <title>PSR E473</title>
   <style>
     :root {
@@ -1360,7 +1368,7 @@
     // =========================================================================
     const NOTES_SHARP = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
     const NOTES_FLAT  = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
-    const CHORD_REGEX = /(?<![A-Za-z0-9#b])([A-G](?:#|b)?)((?:maj|min|m|dim|aug|sus|add)?[0-9]*(?:b5|#5|b9|#9|#11|b13)?(?:\/[A-G](?:#|b)?)?)(?=\s|\||$|\/)/g;
+    const CHORD_REGEX = /(?<![A-Za-z0-9#b])([A-G](?:#|b)?)((?:maj|min|m|dim|aug|sus|add)?[0-9]*(?:b5|#5|b9|#9|#11|b13)?(?:\/[A-G](?:#|b)?)?)(?![A-Za-z0-9#b])/g;
 
     function formatChordsHtml(text) {
       const escaped = escapeHtml(text || "");
@@ -1614,33 +1622,33 @@
     });
 
     songForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  if (saveSongBtn.disabled) return;
-  saveSongBtn.disabled = true;
+      e.preventDefault();
+      if (saveSongBtn.disabled) return;
+      saveSongBtn.disabled = true;
 
-  const entry = {
-    id: songIdInput.value || `song-${Date.now()}`,
-    title: titleInput.value.trim(),
-    voice: voiceInput.value.trim(),
-    style: styleInput.value.trim(),
-    tempo: tempoInput.value.trim(),
-    chords: chordsInput.value
-  };
+      const entry = {
+        id: songIdInput.value || `song-${Date.now()}`,
+        title: titleInput.value.trim(),
+        voice: voiceInput.value.trim(),
+        style: styleInput.value.trim(),
+        tempo: tempoInput.value.trim(),
+        chords: chordsInput.value
+      };
 
-  try {
-    await persistSongToFirebase(entry);
-    expandedSongId = entry.id;
-    navStack = [{ page: "home" }];
-    history.replaceState({ stackIndex: 0 }, "", "#home");
-    applyRoute({ page: "home" });
-    showToast("Saved to Firebase");
-  } catch (err) {
-    console.error(err);
-    showToast("Save failed — check Firebase rules");
-  } finally {
-    saveSongBtn.disabled = false;
-  }
-});
+      try {
+        await persistSongToFirebase(entry);
+        expandedSongId = entry.id;
+        navStack = [{ page: "home" }];
+        history.replaceState({ stackIndex: 0 }, "", "#home");
+        applyRoute({ page: "home" });
+        showToast("Saved to Firebase");
+      } catch (err) {
+        console.error(err);
+        showToast("Save failed — check Firebase rules");
+      } finally {
+        saveSongBtn.disabled = false;
+      }
+    });
 
     // =========================================================================
     // 7. PLAY MODE: ONLY TRANSPOSE + AND - ON TOP + GREEN CHORDS
@@ -1963,6 +1971,7 @@
       const delBtn = e.target.closest("[data-del-setlist]");
       if (delBtn) {
         e.stopPropagation();
+        if (!confirm("Delete this setlist?")) return;
         const delSlId = delBtn.dataset.delSetlist;
         removeSetlistFromLocalStorage(delSlId);
         renderSetlistsView();
@@ -1997,7 +2006,7 @@
     });
 
     // =========================================================================
-    // 9. HELPERS
+    // 9. HELPERS & PWA SERVICE WORKER REGISTRATION
     // =========================================================================
     function escapeHtml(str) {
       return String(str).replace(/[&<>"']/g, (m) => ({
@@ -2016,6 +2025,17 @@
       toast.classList.add("show");
       clearTimeout(toastTimer);
       toastTimer = setTimeout(() => toast.classList.remove("show"), 2000);
+    }
+
+    if (
+      "serviceWorker" in navigator &&
+      (window.location.protocol === "https:" ||
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1")
+    ) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js", { scope: "./" }).catch(() => {});
+      });
     }
 
     renderHome();
