@@ -546,9 +546,57 @@
 
     .play-top-bar {
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
       margin-bottom: 8px;
       flex-shrink: 0;
+    }
+
+    .play-presets {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .play-preset-box {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--accent);
+      padding: 4px 7px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .play-preset-box.style-preset {
+      border-left-color: var(--purple);
+    }
+
+    .play-preset-box.tempo-preset {
+      border-left-color: var(--amber);
+    }
+
+    .play-preset-label {
+      font-size: 0.56rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .play-preset-val {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     /* Chords Sheet in Green Font */
@@ -1042,6 +1090,21 @@
   <!-- PLAY MODE PAGE -->
   <section id="playView" class="view">
     <div class="play-top-bar">
+      <div class="play-presets">
+        <div class="play-preset-box">
+          <span class="play-preset-label">Voice</span>
+          <span class="play-preset-val" id="playVoiceVal">-</span>
+        </div>
+        <div class="play-preset-box style-preset">
+          <span class="play-preset-label">Style</span>
+          <span class="play-preset-val" id="playStyleVal">-</span>
+        </div>
+        <div class="play-preset-box tempo-preset">
+          <span class="play-preset-label">Tempo</span>
+          <span class="play-preset-val" id="playTempoVal">-</span>
+        </div>
+      </div>
+
       <div class="transpose-compact" title="Transpose">
         <button type="button" class="btn-trans" id="playTransDown">-</button>
         <span class="transpose-indicator" id="playTransVal">0</span>
@@ -1651,10 +1714,13 @@
     });
 
     // =========================================================================
-    // 7. PLAY MODE: ONLY TRANSPOSE + AND - ON TOP + GREEN CHORDS
+    // 7. PLAY MODE: PRESETS + TRANSPOSE + AND - ON TOP + GREEN CHORDS
     // =========================================================================
     const playChordsScreen = document.getElementById("playChordsScreen");
     const playTransVal = document.getElementById("playTransVal");
+    const playVoiceVal = document.getElementById("playVoiceVal");
+    const playStyleVal = document.getElementById("playStyleVal");
+    const playTempoVal = document.getElementById("playTempoVal");
 
     let activePlaySong = null;
     let playSemitones = 0;
@@ -1669,6 +1735,9 @@
       playSemitones = 0;
       headerSub.textContent = "PLAY MODE";
       headerTitle.textContent = song.title;
+      playVoiceVal.textContent = song.voice ? String(song.voice) : "-";
+      playStyleVal.textContent = song.style ? String(song.style) : "-";
+      playTempoVal.textContent = song.tempo ? String(song.tempo) : "-";
       renderPlayChords();
     }
 
